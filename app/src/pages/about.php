@@ -1,3 +1,4 @@
+<!-- POR ALGUM MOTIVO MÍSTICO, O HEADER TÁ MUDANDO DE COR AO ENTRAR AQUI.. acho melhor excluirmos esse arquivo para refazê-lo. -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-    <title>Document</title>
+    <title>Chrysalis - Sua Loja Preferida</title>
 </head>
 <body>
     <?php
@@ -82,41 +83,6 @@
     <?php
     include("footer.php");
     ?>
-    <script>
-        // Função para fechar todos os conteúdos dos cards
-        function closeAllContents() {
-            const contents = document.querySelectorAll('.card-content');
-            contents.forEach(content => {
-                content.classList.add('hidden');
-            });
-        }
-
-        // Função para alternar a exibição do conteúdo de um card
-        function toggleContent(btnId, contentId) {
-            const content = document.getElementById(contentId);
-            if (content.classList.contains('hidden')) {
-                closeAllContents();  // Fechar todos os conteúdos antes de abrir o novo
-                content.classList.remove('hidden');  // Mostrar conteúdo
-            } else {
-                content.classList.add('hidden');  // Esconder conteúdo
-            }
-        }
-
-        // Atribuindo os eventos de clique a cada botão
-        document.getElementById('missao-btn').addEventListener('click', function () {
-            toggleContent('missao-btn', 'missao-content');
-        });
-
-        document.getElementById('visao-btn').addEventListener('click', function () {
-            toggleContent('visao-btn', 'visao-content');
-        });
-
-        document.getElementById('valores-btn').addEventListener('click', function () {
-            toggleContent('valores-btn', 'valores-content');
-        });
-
-    </script>
-    
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
 </html>

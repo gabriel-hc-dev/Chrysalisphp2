@@ -15,9 +15,9 @@
     include('header.php');
     ?>
     <main>
-        <div id="alerts" class="text-white mx-auto text-center py-4" style="background-color: rgb(24, 24, 24);">
-            <span class="mx-4 hover:scale-105 transition-all">DESCONTOS IMPERDÍVEIS</span>
-            <span class="mx-4 hover:scale-105 transition-all">ROUPAS DE QUALIDADE</span>
+        <div id="alerts" class="text-white mx-auto text-center py-4 w-vw" style="background-color: rgb(24, 24, 24);">
+            <span class="mx-4 transition-all hover:scale-125 text-nowrap">DESCONTOS IMPERDÍVEIS</span>
+            <span class="mx-4 transition-all hover:scale-125 text-nowrap">ROUPAS DE QUALIDADE</span>
         </div>
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
@@ -77,7 +77,7 @@
         </div>
 
         <div class="container mx-auto">
-            <h2 class="text-4xl pt-16 pb-4 pl-8 font-semibold">Nossos Produtos</h2>
+            <h2 class="text-5xl mt-16 mb-4 ml-8 font-semibold cursor-default"><span class="text-black transition-all hover:text-yellow-600">Nossos Produtos</span></h2>
         </div>
         <section class="container mx-auto px-8 my-4">
             <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
