@@ -60,7 +60,8 @@ $conexao->query("CREATE TABLE IF NOT EXISTS Produto (
     descricao TEXT NOT NULL,
     grupo TEXT NOT NULL,
     subGrupo TEXT NOT NULL,
-    genero CHAR NOT NULL
+    genero CHAR NOT NULL,
+    imagem MEDIUMBLOB NOT NULL
     )");
 
 $conexao->query("CREATE TABLE IF NOT EXISTS Carrinho (
