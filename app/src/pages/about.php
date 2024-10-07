@@ -1,88 +1,31 @@
-<!-- POR ALGUM MOTIVO MÍSTICO, O HEADER TÁ MUDANDO DE COR AO ENTRAR AQUI.. acho melhor excluirmos esse arquivo para refazê-lo. -->
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/butterfly.css">
     <title>Chrysalis - Sua Loja Preferida</title>
 </head>
-<body>
+
+<body class="overflow-x-hidden">
     <?php
     include('../backend/conexao.php');
-    ?>
-    <?php
     include('header.php');
     ?>
-    <main class="mx-auto px-16">
-        <!--Texto de Sobre Nós-->
-        <h1 class="text-4xl font-semibold mt-14 mb-8">Sobre nós</h1>
-        <div class="text-xl font-extralight text-justify">
-            <p class="w-full bg-white border p-8 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                style="background-color: rgb(255, 251, 250);">
-                Na <b class="font-medium">Chrysalis</b>, acreditamos que <u>a moda vai muito além do ato de se
-                    vestir</u>.
-                Para nós, cada peça de roupa é uma expressão de personalidade, uma extensão da alma e um meio de
-                transformação. Aqui, oferecemos uma experiência única de moda, onde estilo, qualidade e acessibilidade
-                caminham juntos.
-                <br><br>
-                Nosso compromisso é <u>democratizar a moda</u>, tornando-a acessível para todos os públicos.
-                Acreditamos que o direito de se expressar por meio da moda deve estar ao alcance de todos,
-                sem abrir mão de qualidade ou estilo.
-                <br><br>
-                Cada coleção é cuidadosamente elaborada com <u>materiais de alta qualidade</u>, com atenção aos mínimos
-                detalhes para garantir que você tenha em mãos peças duráveis, confortáveis e sempre em sintonia com as
-                tendências mais atuais. Além disso, buscamos sempre oferecer preços justos, pois acreditamos que estilo
-                não deve ser um privilégio.
-                <br><br>
-                Na <b class="font-medium">Chrysalis</b>, você encontrará muito mais do que roupas; encontrará uma nova
-                forma de se conectar com quem você realmente é. Estamos aqui para te inspirar e celebrar a moda
-                em sua forma mais inclusiva e autêntica. Seja bem-vindo à <b class="font-medium">Chrysalis</b>,
-                onde cada transformação é <u>única</u>!
-            </p>
+    <main class="container mx-auto h-dvh w-dvw text-pretty ">
+        <div class="container mx-auto">
+            <h2 class="text-5xl mt-16 mb-8 ml-6 font-semibold cursor-default"><span class="text-black transition-all hover:text-yellow-600">Sobre nós</span></h2>
         </div>
-        <!--Cards de Missão, Visão e Valores-->
-        <div class="mx-auto py-8 px-6 mt-14 border rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mb-8"
-            style="background-color: rgb(255, 251, 250);">
-            <section class="container mx-auto">
-                <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                    <div id="missao" class="w-full border p-8 border-gray-300 rounded-lg shadow duration-700">
-                        <button id="missao-btn"
-                            class="w-full text-3xl text-gray-900 font-semibold text-center">MISSÃO</button>
-                        <div id="missao-content" class="hidden mt-4 text-justify card-content">
-                            <p>Nossa missão é democratizar a indústria da moda em todo o país, através, principalmente,
-                                do e-commerce têxtil.</p>
-                        </div>
-                    </div>
-
-                    <div id="visao" class="w-full border p-8 border-gray-300 rounded-lg shadow duration-700">
-                        <button id="visao-btn"
-                            class="w-full text-3xl text-gray-900 font-semibold text-center">VISÃO</button>
-                        <div id="visao-content" class="hidden mt-4 text-justify card-content">
-                            <p>Nossa visão é alcançar todo o mercado nacional e levar nosso legado acessível à toda
-                                população, independente da classe.</p>
-                        </div>
-                    </div>
-
-                    <div id="valores" class="w-full border p-8 border-gray-300 rounded-lg shadow duration-700">
-                        <button id="valores-btn"
-                            class="w-full text-3xl text-gray-900 font-semibold text-center">VALORES</button>
-                        <div id="valores-content" class="hidden mt-4 text-justify card-content">
-                            <p>Nossos valores são: Liberdade, Democracia, Gentileza, Paciência, Cooperação e Amizade.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </section>
-        </div>
+        
     </main>
     <?php
     include("footer.php");
     ?>
-    <?php
-    include("footer.php");
-    ?>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
+
 </html>
