@@ -68,7 +68,7 @@
             <h1 class="text-2xl font-semibold my-8">Editar Produtos</h1>
 
             <?php
-            require('../../../backend/conexao.php');
+            require("../../src/backend/conexao.php");
 
             if (isset($_GET['idProduto'])) {
                 $idProduto = $_GET['idProduto'];
@@ -157,9 +157,10 @@
                 }
             }
             ?>
-        <?php
-        include('../../pages/footer.php');
-        ?>
+
     </main>
+    <?php
+        include("../../src/pages/footer.php"); 
+        ?>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../styles/butterfly.css">
-<header class="bg-orange-400">
-    <nav class="border-gray-200 bg-orange-400">
-        <div class="max-w-screen-xl grid grid-cols-1 lg:grid-cols-3 items-center mx-auto p-4 gap-4 bg-orange-400">
+<header class="bg-yellow-500">
+    <nav class="border-gray-200 bg-yellow-500">
+        <div class="max-w-screen-xl grid grid-cols-1 lg:grid-cols-3 items-center mx-auto p-4 gap-4 bg-yellow-500">
             <!-- Logo Section -->
             <div class="flex items-center space-x-3 rtl:space-x-reverse lg:col-span-1">
                 <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse transition-all">
@@ -14,7 +14,7 @@
             </div>
 
             <!-- Search Bar Section -->
-            <form class="max-w-md bg-orange-400 focus:shadow rounded-full mx-auto lg:col-span-1 relative hidden lg:block"
+            <form class="max-w-md bg-yellow-500 focus:shadow rounded-full mx-auto lg:col-span-1 relative hidden lg:block"
                 style="min-width: 340px; max-width: 416px;">
                 <label for="default-search"
                     class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
@@ -45,9 +45,9 @@
             </button>
 
             <!-- Menu Section -->
-            <div class="hidden w-full md:block md:w-auto bg-orange-400 float-left"
+            <div class="hidden w-full md:block md:w-auto bg-yellow-500 float-left"
                 id="navbar-default">
-                <ul class="bg-orange-400 font-medium flex flex-col justify-end flex p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-orange-400">
+                <ul class="bg-yellow-500 font-medium flex flex-col justify-end flex p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-yellow-500">
     
                     <li>
                         <a href="index.php"

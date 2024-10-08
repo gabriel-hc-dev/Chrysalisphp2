@@ -73,15 +73,15 @@
                 <h1 class="text-3xl font-semibold my-8">Adicione um Produto</h1>
                 <form action="create.php" method="post">
                     <div class="mb-4">
-                        <div class="mb-4">
-                            <label for="preco">Preço</label>
-                            <input type="text" name="preco" id="preco"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
-                                required>
-                        </div>
                         <div class="mb-6">
                             <label for="nome">Nome</label>
                             <input type="text" name="nome" id="nome"
+                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="preco">Preço</label>
+                            <input type="text" name="preco" id="preco"
                                 class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
                                 required>
                         </div>
@@ -104,13 +104,14 @@
                                 required>
                         </div>
                     </div>
-                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white bg-yellow-700 hover:bg-yellow-900 rounded-lg text-center">Cadastrar</button>
+                    <button
+                        class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white bg-yellow-700 hover:bg-yellow-900 rounded-lg text-center">Cadastrar</button>
                 </form>
             </div>
         </div>
     </main>
     <?php
-    require("../../../backend/conexao.php");
+    require("../../src/backend/conexao.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $preco = isset($_POST['preco']) ? $_POST['preco'] : "CAMPO VAZIO!";
@@ -126,7 +127,9 @@
         if ($stmt) {
             $stmt->bind_param("sssss", $preco, $nome, $grupo, $subgrupo, $genero);
             if ($stmt->execute()) {
-                echo "<script>alert('Dados inseridos!');</script>";
+                echo "<script>alert('Dados inseridos!');
+                    window.location.replace('read.php');
+                </script>";
             } else {
                 die("Erro ao executar a query: " . $stmt->error);
             }
@@ -139,6 +142,6 @@
     }
     ?>
 
-    <?php include("../../pages/footer.php"); ?>
+    <?php include("../../src/pages/footer.php"); ?>
 
 </body>

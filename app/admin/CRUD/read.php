@@ -68,7 +68,7 @@
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <?php
-                require('../../../backend/conexao.php');
+                require("../../src/backend/conexao.php");
                 $sqlSelect = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero FROM Produto;";
 
                 $result = $conexao->query($sqlSelect);
@@ -79,7 +79,7 @@
                         <tr>
                             <th class='px-6 py-4 border-b' scope='col'>CÓDIGO</th>
                             <th class='px-6 py-4 border-b' scope='col'>PREÇO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>DESCRIÇÃO</th>
+                            <th class='px-6 py-4 border-b' scope='col'>NOME</th>
                             <th class='px-6 py-4 border-b' scope='col'>GRUPO</th>
                             <th class='px-6 py-4 border-b' scope='col'>SUBGRUPO</th>
                             <th class='px-6 py-4 border-b' scope='col'>GÊNERO</th>
@@ -98,8 +98,8 @@
                                 <td class='px-6 py-4'>" . $row["subGrupo"] . "</td>
                                 <td class='px-6 py-4'>" . $row["genero"] . "</td>
                                 <td class='px-6 py-4'>
-                                    <a href='update.php?idProduto=" . $row["idProduto"] . "' class='transition bg-blue-500 text-white ease-in-out py-2 px-4 rounded hover hover:shadow-md hover:bg-blue-600 duration-300'>Editar</a>
-                                    <a href='delete.php?idProduto=" . $row["idProduto"] . "' class='transition bg-yellow-500 text-white ease-in-out py-2 px-4 rounded hover hover:shadow-md hover:bg-yellow-700 duration-300 ml-4'>Deletar</a>
+                                    <a href='update.php?idProduto=" . $row["idProduto"] . "' class='bg-gray-700 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-green-500 duration-500'>Editar</a>
+                                    <a href='delete.php?idProduto=" . $row["idProduto"] . "' class='bg-gray-700 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-red-500 duration-500 ml-4'>Deletar</a>
                                 </td>
                             </tr>";
                         }
@@ -115,7 +115,7 @@
                 ?>
             </div>
         </div>
-        <?php include('../../pages/footer.php'); 
+        <?php include("../../src/pages/footer.php"); 
         ?>
         </main>
 </body>

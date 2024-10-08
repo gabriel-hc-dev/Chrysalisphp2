@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--Basicamente oq ta acontecendo de ficar amarelo o header é que deve ta dando conflito entre o flowbite e o tailwind
+Se tirar o tailwind ele volta com a cor normal, mas n sei oq vc vai fazer nesse caso-->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Entrar como cliente</title>
 </head>
 
@@ -59,7 +62,7 @@
                                 </div>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-500 transition-all hover:scale-105">Criar conta</button>
+                                class="w-full text-white bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Criar conta</button>
                         </form>
                     </div>
                 </div>

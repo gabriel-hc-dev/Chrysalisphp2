@@ -41,7 +41,7 @@
 <body>
     <?php
     include("../headerAdmin.php");
-    require('../../../backend/conexao.php');
+    require("../../src/backend/conexao.php");
 
     if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET['idProduto'])) {
         $idProduto = $_GET['idProduto'];
@@ -52,7 +52,9 @@
         if ($stmt) {
             $stmt->bind_param("i", $idProduto);
             if ($stmt->execute()) {
-                echo "<script>alert('Registro Deletado.');</script>";
+                echo "<script>alert('Registro Deletado.');
+                window.location.replace('read.php');
+                </script>";
                 exit;
             } else {
                 die("ERRO: Não foi possível deletar: " . $stmt->error);
@@ -61,9 +63,7 @@
             die("ERRO: Não foi possível preparar a query: " . $conexao->error);
         }
     }
-
-    header("Location: read.php");
-    include('../styles/footer.php');
+    include("../../src/pages/footer.php");
     ?>
 </body>
 </html>
