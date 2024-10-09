@@ -1,11 +1,16 @@
+<?php
+include_once('../backend/conexao.php');
+$sql = 'SELECT * FROM produto';
+$result = $conexao->query($sql);
+while($user_data = mysqli_fetch_assoc($result)){
+echo('
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-    <a href="produto.php">
-        <img class="p-8 rounded-t-lg" src="../../public/assets/images/Black_Butterfly.png" alt="product image" />
+    <a href="produto.php?id=' . $user_data['idProduto'] . '">
+        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id='.$user_data['idProduto'].'" alt="Imagem do Produto" />
     </a>
     <div class="px-5 pb-5">
-        <a href="produto.php">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">Camiseta Oversized
-                Marrom Estampada</h5>
+        <a href="produto.php?id=' . $user_data['idProduto'] . '">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900">'.$user_data['grupo'].' '.$user_data['subGrupo'].' '.$user_data['descricao'].'</h5>
         </a>
         <div class="flex items-center mt-2.5 mb-5">
             <div class="flex items-center space-x-1 rtl:space-x-reverse">
@@ -39,7 +44,7 @@
                 class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-800 ms-3">5.0</span>
         </div>
         <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900">R$69,90</span>
+            <span class="text-3xl font-bold text-gray-900">R$'.$user_data['valorProduto'].'</span>
             <a href=""
                 class="text-white bg-orange-700 transition-colors hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 <img src="../../public/assets/images/icons/cart.svg" alt="Carrinho" style="filter: invert(100%)">
@@ -47,3 +52,4 @@
         </div>
     </div>
 </div>
+');}

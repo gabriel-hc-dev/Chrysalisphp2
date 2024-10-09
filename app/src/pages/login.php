@@ -34,7 +34,7 @@
                                 <label for="email"
                                     class="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                                 <input type="email" name="email" id="email" placeholder="exemplo@gmail.com"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-yellow-600 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                     required>
                             </div>
                             <div>
@@ -42,7 +42,7 @@
                                     class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
                                 <input type="password" name="password" id="password"
                                     placeholder="••••••••"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-yellow-600 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                     required>
                             </div>
                             <div class="flex items-start">
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-500 transition-all hover:scale-105">Criar conta</button>
+                                class="w-full text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-orange-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-500 transition-all hover:scale-105">Criar conta</button>
                         </form>
                     </div>
                 </div>

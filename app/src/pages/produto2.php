@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
+<!-- neste arquivo está somente o front-end de exemplo de como deveria ser a página de produtos -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-    <title>Chrysalis - Produto</title>
+    <title>Chrysalis - Sua Loja Preferida</title>
 </head>
 
 <body class="bg-white text-gray-900">
     <?php
     include("header.php");
-    include("../backend/conexao.php"); // Inclua sua conexão ao banco de dados
-
-    // Verifica se o ID do produto foi passado na URL
-    if (isset($_GET['id'])) {
-        $idProduto = $_GET['id'];
-
-        // Prepara a consulta para buscar os dados do produto pelo ID
-        $sql = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem FROM Produto WHERE idProduto = ?";
-        $stmt = $conexao->prepare($sql);
-        $stmt->bind_param("i", $idProduto);
-        $stmt->execute();
-        $stmt->bind_result($idProduto, $valorProduto, $descricao, $grupo, $subgrupo, $genero, $imagem);
-        $stmt->fetch();
-        $stmt->close();
-    } else {
-        echo "<p>Produto não encontrado.</p>";
-        exit;
-    }
     ?>
 
     <section class="flex items-center justify-center min-h-screen">
+        <!-- Container -->
         <div class="container mx-auto p-6">
+            <!-- Detalhamento do produto -->
             <div class="flex flex-col items-center justify-center md:flex-row md:justify-center md:space-x-12 gap-8 mb-8">
 
                 <!-- Imagem do produto -->
-                <?php
-                if ($imagem) {
-                    echo '<img class="w-5/6 m-8" src="data:image/png;base64,' . base64_encode($imagem) . '" alt="' . $grupo.' '.$subgrupo.' '. $descricao . '" style="height:500px; width: 500px;">';
-                } else {
-                    echo '<img class="w-5/6 m-8" src="https://via.placeholder.com/500" alt="Imagem não disponível" style="height:500px; width: 500px;">';
-                }
-                ?>
+
+                <img class="w-5/6 m-8" src="https://via.placeholder.com/500" alt="Camiseta Branca" style="height:500px; width: 500px;">
+
 
                 <!-- Detalhes do produto -->
                 <div class="md:w-1/2 mt-6 md:mt-0">
-                    <h1 class="text-3xl font-bold text-start md:text-left"><?php echo $grupo.' '. $subgrupo.' '. $descricao; ?></h1>
-                    <p class="text-zinc-400 text-lg mt-4 text-start md:text-left">⭐ número Avaliações</p>
-                    <p class="text-4xl font-bold mt-4 text-start md:text-left">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
+                    <h1 class="text-3xl font-bold text-start md:text-left">Camiseta Branca Masculina</h1>
+                    <p class="text-zinc-400 text-lg mt-4 text-start md:text-left">⭐ 4.8 (120 Avaliações)</p>
+                    <p class="text-4xl font-bold mt-4 text-start md:text-left">R$ 49,99</p>
 
-                    <p class="mt-6 text-start md:text-left"><?php echo $grupo.' '. $subgrupo.' '. $descricao; ?></p>
+                    <!-- Opções de Tamanhos -->
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold text-start md:text-left">Tamanhos Disponíveis:</h2>
+                        <div class="flex justify-start space-x-2 mt-2">
+                            <button class="py-2 px-4 text-black rounded-full border-2 border-yellow-700 hover:bg-orange-500 transition duration-300">PP</button>
+                            <button class="py-2 px-4 text-black rounded-full border-2 border-yellow-700 hover:bg-orange-500 transition duration-300">P</button>
+                            <button class="py-2 px-4 text-black rounded-full border-2 border-yellow-700 hover:bg-orange-500 transition duration-300">M</button>
+                            <button class="py-2 px-4 text-black rounded-full border-2 border-yellow-700 hover:bg-orange-500 transition duration-300">G</button>
+                            <button class="py-2 px-4 text-black rounded-full border-2 border-yellow-700 hover:bg-orange-500 transition duration-300">GG</button>
+                        </div>
+                    </div>
+                    <!-- Opções de Entrega -->
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold text-start md:text-left">Opções de Entrega:</h2>
+                        <div class="flex flex-col space-y-2 mt-2 text-start md:text-left">
+                            <div class="relative z-0 my-2">
+                                <input type="text" id="cep" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-orange-500 focus:outline-none focus:ring-0  focus:border-orange-500 peer" placeholder=" " />
+                                <label for="cep" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Digite seu CEP</label>
+                            </div>
+                            <div class="flex items-center justify-start md:justify-start">
+                                <input type="radio" name="shipping" id="shipping" class="w-4 h-4 text-orange-500 focus:ring-0 focus:ring-orange-500 ">
+                                <label for="shipping" class="ml-2">Envio Padrão - R$ 10,00 (Chega em 5-7 dias úteis)</label>
+                            </div>
+                            <div class="flex items-center justify-start md:justify-start">
+                                <input type="radio" name="shipping" id="express" class="w-4 h-4 text-orange-500 focus:ring-0 focus:ring-orange-500 ">
+                                <label for="express" class="ml-2">Envio Expresso - R$ 20,00 (Chega em 2-3 dias úteis)</label>
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- Tamanhos Disponíveis, Opções de Entrega, Botão de Adicionar ao Carrinho podem permanecer fixos ou ser dinâmicos, conforme necessário -->
 
+                    <!-- Botão de Adicionar ao Carrinho -->
                     <div class="mt-6">
                         <button class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-500 transition-all duration-300">Adicionar ao Carrinho</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Seção de comentários, avaliações, etc. -->
-             <!-- Adicionar Avaliação -->
+            <!-- Adicionar Avaliação -->
             <div class="mt-12 mb-8">
                 <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2>
                 <div class="flex flex-col items-center space-y-4 mt-4">
@@ -125,10 +132,12 @@
                         <p class="mt-2 text-gray-700">Bom produto, mas demorou um pouco para chegar.</p>
                     </div>
                 </div>
+            </div>
         </div>
     </section>
-
-    <?php include("footer.php"); ?>
+    <?php
+    include("footer.php");
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
