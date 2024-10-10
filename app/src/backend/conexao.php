@@ -104,7 +104,10 @@ $conexao->query("CREATE TABLE IF NOT EXISTS Feedback(
     )");
 
 //Criando perfil de usuário administrador
+// Cria a senha criptografada
+$senhaAdmin = password_hash('adminadmin123123', PASSWORD_BCRYPT);
 
+// Insere os dados no banco de dados
 $conexao->query("INSERT IGNORE INTO Endereco VALUES ('00000001','Rua Administrador Chrysalis','Chrysalis','SP','Caçapava');");
 $conexao->query("INSERT IGNORE INTO Pessoa VALUES (1,'00000000001','00000000000000000001','12999999999','Administrador','00000001','administradorchrysalis@gmail.com','2000/01/01','M');");
-$conexao->query("INSERT IGNORE INTO Usuario VALUES (1,'administradorchrysalis@gmail.com','adminadmin123123',1);");
+$conexao->query("INSERT IGNORE INTO Usuario VALUES (1,'administradorchrysalis@gmail.com','$senhaAdmin',1);");
