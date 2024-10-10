@@ -1,62 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="/assets/images/White_Butterfly.png" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <link href="./output.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/White_Butterfly.png">
-    <title>Chrysalis - Editar Produto</title>
-    <style>
-        @keyframes butterfly-flying {
-            0% {
-                transform: scaleX(1);
-            }
-
-            50% {
-                transform: scaleX(0.6);
-            }
-
-            100% {
-                transform: scaleX(1);
-            }
-        }
-
-        #butterfly_img {
-            transition: all 2s ease;
-        }
-
-        #butterfly_img:hover {
-            animation-name: butterfly-flying;
-            animation-duration: 0.8s;
-            animation-iteration-count: infinite;
-        }
-
-        #tamanho:hover {
-            background-color: #FE980A;
-        }
-
-        #btn_carrinho {
-            background-color: rgb(232, 128, 13)
-        }
-
-        #btn_carrinho:hover {
-            background-color: #f97316;
-        }
-
-        #btn_avaliar {
-            background-color: #E8800D;
-        }
-
-        #btn_avaliar:hover {
-            background-color: #f97316;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../src/styles/butterfly.css">
+    <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
+    <title>Chrysalis - Sua Loja Preferida</title>
+    
 </head>
 
 <body>
@@ -68,7 +20,7 @@
             <h1 class="text-2xl font-semibold my-8">Editar Produtos</h1>
 
             <?php
-            require("../../src/backend/conexao.php");
+            require('../../src/backend/conexao.php');
 
             if (isset($_GET['idProduto'])) {
                 $idProduto = $_GET['idProduto'];
@@ -116,7 +68,7 @@
                                         value="<?php echo htmlspecialchars($row['genero']); ?>" required>
                                 </div>
                             <button
-                                class="transition px-8 py-2 text-md font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-lg text-center">Atualizar</button>
+                                class="transition px-8 py-2 text-md font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-lg text-center">Atualizar</button>
                         </form>
                     </div>
                     <?php
@@ -157,10 +109,9 @@
                 }
             }
             ?>
-
-    </main>
-    <?php
-        include("../../src/pages/footer.php"); 
+            </main>
+        <?php
+        include('../../src/pages/footer.php');
         ?>
 </body>
 </html>

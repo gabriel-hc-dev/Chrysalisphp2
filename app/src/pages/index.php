@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <link rel="stylesheet" href="../styles/butterfly.css">
+    <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-
+    
 </head>
 
 <body>
@@ -25,30 +25,18 @@
         <?php
         include('carousel.php');
         ?>
-        <div class="mx-8">
-            <div class="container mx-auto">
-                <h2 class="text-4xl mt-12 mb-8 mx-8 font-semibold cursor-default"><span
-                        class="text-black duration-200 hover:text-amber-600">Nossos Produtos</span></h2>
-            </div>
-            <section class="container mx-auto px-8 my-4">
-                <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <?php
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    include('card.php');
-                    ?>
 
-                </section>
-            </section>
+        <div class="container mx-auto">
+            <h2 class="text-5xl mt-16 mb-8 ml-8 font-semibold cursor-default"><span class="text-black transition-all hover:text-yellow-600">Nossos Produtos</span></h2>
         </div>
+        <section class="container mx-auto px-8 my-4">
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <?php
+                include('card.php');
+                ?>
+
+            </section>
+        </section>
     </main>
     <?php
     include("footer.php");

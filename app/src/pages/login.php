@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--Basicamente oq ta acontecendo de ficar amarelo o header é que deve ta dando conflito entre o flowbite e o tailwind
-Se tirar o tailwind ele volta com a cor normal, mas n sei oq vc vai fazer nesse caso-->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
@@ -24,20 +22,20 @@ Se tirar o tailwind ele volta com a cor normal, mas n sei oq vc vai fazer nesse 
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0" style="width: 50%">
                 <div
                     class="w-dvw bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 transition-all shadow">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                    <div class="p-6 md:space-y-4 sm:p-8">
+                        <h1 class="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                             Entrar como cliente
                         </h1>
                         <p class="text-sm font-light text-gray-500">
                             Ainda não possui login? <a href="cadastro.php"
-                                class="font-medium text-orange-500 hover:underline">Entrar</a>
+                                class="font-medium text-orange-500 hover:underline">Cadastre-se</a>
                         </p>
                         <form class="space-y-4 md:space-y-6" action="#">
                             <div>
                                 <label for="email"
                                     class="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                                 <input type="email" name="email" id="email" placeholder="exemplo@gmail.com"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-yellow-600 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                     required>
                             </div>
                             <div>
@@ -45,7 +43,7 @@ Se tirar o tailwind ele volta com a cor normal, mas n sei oq vc vai fazer nesse 
                                     class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
                                 <input type="password" name="password" id="password"
                                     placeholder="••••••••"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-yellow-600 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                     required>
                             </div>
                             <div class="flex items-start">
@@ -62,7 +60,7 @@ Se tirar o tailwind ele volta com a cor normal, mas n sei oq vc vai fazer nesse 
                                 </div>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-orange-500 focus:ring-4 focus:outline-none focus:ring-orange-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Criar conta</button>
+                                class="w-full text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Criar conta</button>
                         </form>
                     </div>
                 </div>
