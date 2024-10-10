@@ -30,7 +30,7 @@
             // Verifica se a senha fornecida corresponde à senha armazenada
             if (password_verify($password, $usuario['senha'])) {
                 // Autenticação bem-sucedida, armazena o ID do usuário na sessão
-                $_SESSION['usuario_id'] = $usuario['idPessoa']; // Você pode alterar isso conforme sua tabela
+                $_SESSION['usuario_id'] = $usuario['idPessoa']; 
                 $_SESSION['usuario_email'] = $usuario['loginUsuario']; // Salvar o e-mail, se necessário
                 
                 // Redireciona para a página inicial ou outra página após login
@@ -44,6 +44,7 @@
         }
     }
     ?>
+    
     
     <?php include('header.php'); ?>
 
@@ -67,26 +68,29 @@
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                                 <input type="email" name="email" id="email" placeholder="exemplo@gmail.com"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1"
                                     required>
                             </div>
                             <div>
                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
                                 <input type="password" name="password" id="password"
                                     placeholder="••••••••"
-                                    class="bg-gray-50 border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
+                                    class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1"
                                     required>
                             </div>
                             <button type="submit"
-                                class="w-full text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Entrar</button>
+                                class="w-full text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-700 transition-all hover:scale-105">Entrar</button>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-    <?php include("footer.php"); ?>
+    <?php include("footer.php"); 
+    ?>
+    
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    
 </body>
 
 </html>

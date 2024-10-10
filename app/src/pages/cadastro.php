@@ -24,22 +24,22 @@
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                     <div class="flex-1">
                         <label for="nome" class="block text-sm font-medium text-gray-900">Nome Completo</label>
-                        <input type="text" name="nome" id="nome" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: João Cunha" required />
+                        <input type="text" name="nome" id="nome" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: João Cunha" required />
                     </div>
                     <div class="flex-1">
                         <label for="cpf" class="block text-sm font-medium text-gray-900">CPF</label>
-                        <input type="text" name="cpf" id="cpf" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="000.000.000-00" maxlength="14" required />
+                        <input type="text" name="cpf" id="cpf" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="000.000.000-00" maxlength="14" required />
                     </div>
                 </div>
                 <!-- Contato -->
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                     <div class="flex-1">
                         <label for="telefone" class="block text-sm font-medium text-gray-900">Telefone</label>
-                        <input type="text" name="telefone" id="telefone" maxlength="14" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="(00) 00000-0000" oninput="formatarTelefone(this)" required />
+                        <input type="text" name="telefone" id="telefone" maxlength="14" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="(00) 00000-0000" oninput="formatarTelefone(this)" required />
                     </div>
                     <div class="flex-1">
                         <label for="email" class="block text-sm font-medium text-gray-900">E-mail</label>
-                        <input type="email" name="email" id="email" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="exemplo@gmail.com" required />
+                        <input type="email" name="email" id="email" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="exemplo@gmail.com" required />
                     </div>
                 </div>
 
@@ -48,28 +48,28 @@
                     <div>
                         <label for="cep" class="block text-sm font-medium text-gray-900">CEP</label>
                         <input type="text" name="cep" id="cep" maxlength="9"
-                            class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500"
+                            class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1"
                             placeholder="00000-000" required onblur="buscarEndereco()">
                     </div>
                     <div class="flex-1">
                         <label for="rua" class="block text-sm font-medium text-gray-900">Rua</label>
-                        <input type="text" name="rua" id="rua" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: Rua das Flores" required />
+                        <input type="text" name="rua" id="rua" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: Rua das Flores" required />
                     </div>
                     <div class="flex-1">
                         <label for="numero" class="block text-sm font-medium text-gray-900">Nº Res.</label>
-                        <input type="text" name="numero" id="numero" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: 123" required />
+                        <input type="text" name="numero" id="numero" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: 123" required />
                     </div>
                     <div class="flex-1">
                         <label for="bairro" class="block text-sm font-medium text-gray-900">Bairro</label>
-                        <input type="text" name="bairro" id="bairro" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: Jardim Primavera" required />
+                        <input type="text" name="bairro" id="bairro" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: Jardim Primavera" required />
                     </div>
                     <div class="flex-1">
                         <label for="cidade" class="block text-sm font-medium text-gray-900">Cidade</label>
-                        <input type="text" name="cidade" id="cidade" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: São Paulo" required />
+                        <input type="text" name="cidade" id="cidade" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: São Paulo" required />
                     </div>
                     <div class="flex-1">
                         <label for="estado" class="block text-sm font-medium text-gray-900">Estado</label>
-                        <input type="text" name="estado" id="estado" maxlength="2" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" placeholder="Ex.: SP" required />
+                        <input type="text" name="estado" id="estado" maxlength="2" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: SP" required />
                     </div>
                 </div>
 
@@ -77,11 +77,11 @@
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                     <div class="flex-1">
                         <label for="dataNascimento" class="block text-sm font-medium text-gray-900">Data de Nascimento</label>
-                        <input type="date" name="dataNascimento" id="dataNascimento" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" required />
+                        <input type="date" name="dataNascimento" id="dataNascimento" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" required />
                     </div>
                     <div class="flex-1">
                         <label for="sexo" class="block text-sm font-medium text-gray-900">Sexo</label>
-                        <select name="sexo" id="sexo" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" required>
+                        <select name="sexo" id="sexo" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" required>
                             <option value="">Selecione seu gênero</option>
                             <option value="M">Masculino</option>
                             <option value="F">Feminino</option>
@@ -94,11 +94,11 @@
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                     <div class="flex-1">
                         <label for="password" class="block text-sm font-medium text-gray-900">Senha</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" required />
+                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" required />
                     </div>
                     <div class="flex-1">
                         <label for="confirmPassword" class="block text-sm font-medium text-gray-900">Confirmar Senha</label>
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-yellow-600 focus:ring-orange-500" required />
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" required />
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex items-center justify-center">
-                    <button type="submit" class="w-3/4 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Cadastrar</button>
+                    <button type="submit" class="w-1/4 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Cadastrar</button>
                 </div>
             </form>
         </section>
@@ -182,6 +182,7 @@
         if ($result) {
             // Redirecionar ou mostrar mensagem de sucesso
             echo "Usuário cadastrado com sucesso!";
+            header('Location:login.php');
         } else {
             // Mostrar mensagem de erro
             echo "Erro ao cadastrar usuário.";
@@ -211,7 +212,6 @@
                 console.log('CEP INVÁLIDO')
             }
         }
-
         function formatarTelefone(telefone) {
             // Adicione a implementação da formatação aqui
         }
