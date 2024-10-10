@@ -7,7 +7,7 @@ while($user_data = mysqli_fetch_assoc($result)){
 echo('
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
     <a href="produto.php?id=' . $user_data['idProduto'] . '">
-        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id='.$user_data['idProduto'].'" alt="Imagem do Produto" />
+        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id='.$user_data['idProduto'].'" alt="Imagem do Produto"  style="max-height:500px"/>
     </a>
     <div class="px-5 pb-5">
         <a href="produto.php?id=' . $user_data['idProduto'] . '">

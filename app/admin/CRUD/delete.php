@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,7 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-
 </head>
-
 <body>
     <div class="container mx-auto flex items-center justify-center"><a href="read.php" class="px-4 py-2 bg-orange-500 text-white font-bold transtion-all hover:scale-125 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500">Voltar</a></div>
     <?php
@@ -38,5 +35,4 @@
     include('../styles/footer.php');
     ?>
 </body>
-
 </html>

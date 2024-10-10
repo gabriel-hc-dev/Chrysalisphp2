@@ -39,7 +39,7 @@
                             class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 text-white hover:underline hover:scale-125 active:scale-150 transition-all duration-300">Cadastrar</a>
                     </li>
                     <li>
-                        <a href="login.php"
+                        <a href="../../src/pages/login.php"
                             class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 hover:scale-125 transition-all"><img
                                 src="../../public/assets/images/icons/account.svg" alt="Perfil"
                                 style="filter: invert(100%)"></a>
