@@ -2,6 +2,7 @@
 include_once('../backend/conexao.php');
 $sql = 'SELECT * FROM produto';
 $result = $conexao->query($sql);
+// switch
 while($user_data = mysqli_fetch_assoc($result)){
 echo('
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
