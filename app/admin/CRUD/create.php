@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-    
+
 </head>
 
 <body>
@@ -24,46 +24,54 @@
         <div class="container mx-auto sm:px-12">
             <div class="mx-24">
                 <h1 class="text-3xl font-semibold my-8">Adicione um Produto</h1>
-                <form action="create.php" method="post">
+                <form action="create.php" method="post" enctype="multipart/form-data">
                     <div class="mb-4">
                         <div class="mb-4">
                             <label for="preco">Preço</label>
                             <input type="text" name="preco" id="preco"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="nome">Nome</label>
                             <input type="text" name="nome" id="nome"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="grupo">Grupo</label>
                             <input type="text" name="grupo" id="grupo"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="subgrupo">Subgrupo</label>
                             <input type="text" name="subgrupo" id="subgrupo"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="genero">Gênero</label>
                             <input type="text" name="genero" id="genero"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
+                        <!-- Imagem -->
+                        <div class="mb-6">
+                            <label for="imagem">Alterar Imagem</label>
+                            <!-- Campo para upload de nova imagem -->
+                            <input type="file" name="imagem" id="imagem"
+                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                accept="image/*"> <!-- permite selecionar apenas arquivos de imagem -->
+                        </div>
                     </div>
-                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white bg-yellow-700 hover:bg-yellow-900 rounded-lg text-center">Cadastrar</button>
+                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white bg-orange-500 hover:bg-orange-700 rounded-lg text-center">Cadastrar</button>
                 </form>
             </div>
         </div>
     </main>
     <?php
-    require("../../../backend/conexao.php");
+    require("../../src/backend/conexao.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $preco = isset($_POST['preco']) ? $_POST['preco'] : "CAMPO VAZIO!";
@@ -72,17 +80,35 @@
         $subgrupo = isset($_POST['subgrupo']) ? $_POST['subgrupo'] : "CAMPO VAZIO!";
         $genero = isset($_POST['genero']) ? $_POST['genero'] : "CAMPO VAZIO!";
 
-        $sqlInsert = "INSERT INTO Produto (valorProduto, descricao, grupo, subGrupo, genero) VALUES (?, ?, ?, ?, ?)";
+        // Verificando se o arquivo de imagem foi enviado
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
+            $imagemTemp = $_FILES['imagem']['tmp_name']; // Caminho temporário do arquivo no servidor
+            $imagemBinaria = file_get_contents($imagemTemp); // Conteúdo binário da imagem
+        } else {
+            $imagemBinaria = null;
+        }
+
+        $sqlInsert = "INSERT INTO Produto (valorProduto, descricao, grupo, subGrupo, genero, imagem) VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = $conexao->prepare($sqlInsert);
 
         if ($stmt) {
-            $stmt->bind_param("sssss", $preco, $nome, $grupo, $subgrupo, $genero);
+            $null = null; // Placeholder para a imagem binária
+
+            // Ajustando o bind_param com os tipos corretos, incluindo "b" para binário
+            $stmt->bind_param("sssssb", $preco, $nome, $grupo, $subgrupo, $genero, $null);
+
+            // Enviando os dados binários da imagem
+            if ($imagemBinaria !== null) {
+                $stmt->send_long_data(5, $imagemBinaria); // O índice "5" refere-se ao sexto parâmetro (imagem)
+            }
+
             if ($stmt->execute()) {
-                echo "<script>alert('Dados inseridos!');</script>";
+                echo "<script>alert('Produto cadastrado com sucesso!');</script>";
             } else {
                 die("Erro ao executar a query: " . $stmt->error);
             }
+
             $stmt->close();
         } else {
             die("Erro ao preparar a query: " . $conexao->error);
@@ -92,6 +118,6 @@
     }
     ?>
 
-    <?php include("../../pages/footer.php"); ?>
+    <?php include("../../src/pages/footer.php"); ?>
 
 </body>

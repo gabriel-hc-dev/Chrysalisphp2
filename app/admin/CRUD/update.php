@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-    
+
 </head>
 
 <body>
@@ -24,7 +25,7 @@
 
             if (isset($_GET['idProduto'])) {
                 $idProduto = $_GET['idProduto'];
-                $sqlSelect = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero FROM Produto WHERE idProduto = ?";
+                $sqlSelect = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem FROM Produto WHERE idProduto = ?";
                 $stmt = $conexao->prepare($sqlSelect);
 
                 if ($stmt) {
@@ -34,7 +35,7 @@
 
                     if ($result->num_rows == 1) {
                         $row = $result->fetch_assoc();
-                        ?>
+            ?>
                         <form action="update.php?idProduto=<?php echo $idProduto; ?>" method="post">
                             <div class="mb-4">
                                 <div class="mb-4">
@@ -67,11 +68,23 @@
                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
                                         value="<?php echo htmlspecialchars($row['genero']); ?>" required>
                                 </div>
-                            <button
-                                class="transition px-8 py-2 text-md font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-lg text-center">Atualizar</button>
+                                <!-- Imagem -->
+                                <div class="mb-6">
+                                    <label for="imagem">Alterar Imagem</label>
+                                    <!-- Campo para upload de nova imagem -->
+                                    <input type="file" name="imagem" id="imagem"
+                                        class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                        accept="image/*"> <!-- permite selecionar apenas arquivos de imagem -->
+                                    <label for="imagem">Imagem Atual</label><!-- Exibe a imagem atual -->
+                                    <div class="mb-4">
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagem']); ?>" alt="Imagem do produto" class="w-32 h-32 object-cover">
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="transition px-8 py-2 text-md font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-lg text-center">Atualizar</button>
                         </form>
-                    </div>
-                    <?php
+        </div>
+<?php
                     } else {
                         echo "Registro não encontrado.";
                     }
@@ -89,12 +102,13 @@
                 $grupoNovo = $_POST['grupo'];
                 $subgrupoNovo = $_POST['subgrupo'];
                 $generoNovo = $_POST['genero'];
-                $sqlUpdate = "UPDATE Produto SET valorProduto = ?, descricao = ?, grupo = ?, subgrupo = ?, genero = ? WHERE idProduto = ?";
+                $imagemNovo = $_POST['imagem'];
+                $sqlUpdate = "UPDATE Produto SET valorProduto = ?, descricao = ?, grupo = ?, subgrupo = ?, genero = ?, imagem = ? WHERE idProduto = ?";
 
                 $stmt = $conexao->prepare($sqlUpdate);
 
                 if ($stmt) {
-                    $stmt->bind_param("sssssi", $precoNovo, $nomeNovo, $grupoNovo, $subgrupoNovo, $generoNovo, $id);
+                    $stmt->bind_param("sssssib", $precoNovo, $nomeNovo, $grupoNovo, $subgrupoNovo, $generoNovo, $id, $imagemNovo);
 
                     if ($stmt->execute()) {
                         echo "<script>alert('Dados alterados com sucesso!');</script>";
@@ -103,15 +117,15 @@
                     } else {
                         die("ERRO NO UPDATE: " . $stmt->error);
                     }
-
                 } else {
                     die("Erro na preparação da query: " . $conexao->error);
                 }
             }
-            ?>
-            </main>
-        <?php
-        include('../../src/pages/footer.php');
-        ?>
+?>
+    </main>
+    <?php
+    include('../../src/pages/footer.php');
+    ?>
 </body>
+
 </html>
