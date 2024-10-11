@@ -1,4 +1,13 @@
-<link rel="stylesheet" href="../styles/butterfly.css">
+<head>
+    <link rel="stylesheet" href="../styles/butterfly.css">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<?php
+include_once('../backend/conexao.php');
+if(!isset($_SESSION)){
+    session_start();
+}
+?>
 <header class="bg-orange-400">
     <nav class="border-gray-200 bg-orange-400">
         <div class="max-w-screen-xl grid grid-cols-1 lg:grid-cols-3 items-center mx-auto p-4 gap-4 bg-orange-400">
@@ -48,7 +57,7 @@
             <div class="hidden w-full md:block md:w-auto bg-orange-400 float-left"
                 id="navbar-default">
                 <ul class="bg-orange-400 font-medium flex flex-col justify-end flex p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-orange-400">
-    
+
                     <li>
                         <a href="index.php"
                             class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 d: text-white hover:underline hover:scale-125 active:scale-150 transition-all duration-300">Início</a>
@@ -64,13 +73,42 @@
                                 style="filter: invert(100%)"></a>
                     </li>
                     <li>
-                        <a href="login.php"
-                            class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 hover:scale-125 transition-all"><img
-                                src="../../public/assets/images/icons/account.svg" alt="Perfil"
-                                style="filter: invert(100%)"></a>
+                        <div>
+                            <img class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 hover:scale-125 transition-all cursor-pointer"
+                                src="../../public/assets/images/icons/account.svg" alt="Perfil" style="filter: invert(100%)" onclick="toggleModal()">
+                        </div>
+                        <!-- MODAL -->
+                        <div id="userModal" class="hidden overflow-y-auto fixed inset-0 z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                            <div class="flex items-center justify-center min-h-screen">
+                                <div class="fixed inset-0 bg-black opacity-30"></div>
+                                <div class="bg-white rounded-lg shadow-lg w-1/3 p-6 z-10">
+                                    <div class="p-6 text-center">
+                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Configurações do Usuário</h3>
+                                        <p class="font-semibold">Você está logado como:</p>
+                                        <p>E-mail: <span class="font-semibold" id="userEmail"><?php if(isset($_SESSION['usuario_email'])){echo $_SESSION['usuario_email'];}?></span></p>
+                                        <div class="flex space-x-4 justify-center items-center mt-2">
+                                            <button type="button" id="closeModal" class="text-gray-700 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm py-2.5 px-6 inline-flex items-center mt-2 transition-all" onclick="toggleModal()">
+                                                Fechar
+                                            </button>
+                                            <a href="logout.php" type="button" id="closeModal" class="text-red-700 bg-transparent hover:bg-red-200 hover:text-red-800 hover:underline rounded-lg text-sm py-2.5 px-6 inline-flex items-center mt-2 transition-all">
+                                                Sair
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MODAL FIM -->
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+<script defer>
+    function toggleModal() {
+        const modal = document.getElementById("userModal");
+        modal.classList.toggle("hidden");
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>

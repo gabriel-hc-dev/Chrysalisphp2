@@ -11,15 +11,14 @@
     <title>Chrysalis - Sua Loja Preferida</title>
 </head>
 
-<<<<<<< HEAD
 <body class="overflow-x-hidden bg-gray-50">
     <?php
     include('header.php');
     include('../backend/conexao.php');
     ?>
-    <main class="mx-auto px-16">
+    <main>
         <!--Texto de Sobre Nós-->
-        <h1 class="text-4xl font-semibold mt-14 ml-16 mb-8">Sobre Nós</h1>
+        <h1 class="text-4xl font-semibold mt-14 ml-32 mb-8">Sobre Nós</h1>
         <section class="px-4 md:px-16">
             <div class="max-w-7xl mx-auto">
                 <div class="text-xl font-extralight text-justify pb-10">
@@ -53,7 +52,7 @@
                     </p>
                 </div>
         </section>
-        <div class="mt-8">
+        <section class="mt-8">
             <!-- Missão com linha decorativa -->
             <div class="text-center mb-4">
                 <h2 class="text-3xl font-semibold text-gray-800">Missão</h2>
@@ -85,28 +84,11 @@
                 <p class="text-center bg-white p-4 mx-16 rounded-lg shadow-sm">Liberdade,
                     Democracia, Gentileza, Paciência, Cooperação e Amizade.</p>
             </div>
-        </div>
-=======
-<body class="overflow-x-hidden">
-    <?php
-    include('../backend/conexao.php');
-    include('header.php');
-    ?>
-    <main class="container mx-auto h-dvh w-dvw text-pretty ">
-        <div class="container mx-auto">
-            <h2 class="text-5xl mt-16 mb-8 ml-6 font-semibold cursor-default"><span class="text-black transition-all hover:text-yellow-600">Sobre nós</span></h2>
-        </div>
-        
->>>>>>> 8d158253581ae64707fb4c6ff841b169b77d4992
+        </section>
     </main>
     <?php
-    include("footer.php");
+        include('footer.php');
     ?>
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d158253581ae64707fb4c6ff841b169b77d4992
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
 
 </html>

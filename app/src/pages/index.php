@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-    
+
 </head>
 
 <body>
