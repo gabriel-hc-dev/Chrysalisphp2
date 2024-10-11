@@ -3,15 +3,32 @@ include_once('../backend/conexao.php');
 $sql = 'SELECT * FROM produto';
 $result = $conexao->query($sql);
 // switch
-while($user_data = mysqli_fetch_assoc($result)){
-echo('
+
+while ($user_data = mysqli_fetch_assoc($result)) {
+    $genero = $user_data['genero'];
+
+    switch (trim($genero)) {
+        case "M":
+            $genero = "Masculino(a)";
+            break;
+        case "F":
+            $genero = "Feminino(a)";
+            break;
+        case "U":
+            $genero = "Unissex";
+            break;
+        default:
+            $genero = ""; // Caso padrão se o valor não corresponder
+            break;
+    }
+    echo ('
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
     <a href="produto.php?id=' . $user_data['idProduto'] . '">
-        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id='.$user_data['idProduto'].'" alt="Imagem do Produto"  style="max-height:500px"/>
+        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id=' . $user_data['idProduto'] . '" alt="Imagem do Produto"  style="max-height:500px"/>
     </a>
     <div class="px-5 pb-5">
         <a href="produto.php?id=' . $user_data['idProduto'] . '">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">'.$user_data['grupo'].' '.$user_data['subGrupo'].' '.$user_data['descricao'].'</h5>
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900">' . $user_data['grupo'] . ' ' . $user_data['subGrupo'] . ' ' . $user_data['descricao'] . ' ' . $genero . '</h5>
         </a>
         <div class="flex items-center mt-2.5 mb-5">
             <div class="flex items-center space-x-1 rtl:space-x-reverse">
@@ -45,7 +62,7 @@ echo('
                 class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-800 ms-3">5.0</span>
         </div>
         <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900">R$'.$user_data['valorProduto'].'</span>
+            <span class="text-3xl font-bold text-gray-900">R$' . $user_data['valorProduto'] . '</span>
             <a href=""
                 class="text-white bg-orange-700 transition-colors hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 <img src="../../public/assets/images/icons/cart.svg" alt="Carrinho" style="filter: invert(100%)">
@@ -53,4 +70,5 @@ echo('
         </div>
     </div>
 </div>
-');}
+');
+}

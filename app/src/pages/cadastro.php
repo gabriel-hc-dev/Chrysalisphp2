@@ -24,11 +24,11 @@
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                     <div class="flex-1">
                         <label for="nome" class="block text-sm font-medium text-gray-900">Nome Completo</label>
-                        <input type="text" name="nome" id="nome" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: João Cunha" required />
+                        <input type="text" name="nome" id="usuarioNome" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: João Cunha" required />
                     </div>
                     <div class="flex-1">
                         <label for="cpf" class="block text-sm font-medium text-gray-900">CPF</label>
-                        <input type="text" name="cpf" id="cpf" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="000.000.000-00" maxlength="14" required />
+                        <input type="text" name="cpf" id="cpf" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="000.000.000-00" maxlength="14" required oninput="formatarCPF(this);buscarDadosPorCPF(this.value)" />
                     </div>
                 </div>
                 <!-- Contato -->
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex items-center justify-center">
-                    <button type="submit" class="w-1/4 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105">Cadastrar</button>
+                    <button type="submit" class="w-1/4 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105" onclick="window.open('login.php');">Cadastrar</button>
                 </div>
             </form>
         </section>
@@ -167,7 +167,6 @@
             // Commit da transação
             $conexao->commit();
             return true; // Cadastro realizado com sucesso
-
         } catch (Exception $e) {
             // Rollback da transação em caso de erro
             $conexao->rollback();
@@ -175,7 +174,6 @@
             return false; // Falha no cadastro
         }
     }
-
     // Para utilizar a função, você pode chamar assim, após o formulário ser enviado
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = cadastrarUsuario($_POST);
@@ -212,6 +210,7 @@
                 console.log('CEP INVÁLIDO')
             }
         }
+
         function formatarTelefone(telefone) {
             // Adicione a implementação da formatação aqui
         }
@@ -225,6 +224,43 @@
                 alert("As senhas não coincidem.");
             }
         });
+
+        function formatarCPF(input) {
+            let numero = input.value.replace(/\D/g, '')
+            if (numero.length <= 11) {
+                numero = numero.replace(/^(\d{3})(\d{3})(\d{3})(\d{1})/, "$1.$2.$3-$4");
+            }
+            input.value = numero;
+        }
+        async function buscarDadosPorCpf(cpf) {
+            // Verifica se o CPF está completo
+            if (cpf.length === 14) { // O CPF formatado terá 14 caracteres (com pontos e traço)
+                try {
+                    const response = await fetch(`https://www.receitaws.com.br/v1/cpf/${cpf.replace(/\D/g, '')}`);
+                    const data = await response.json();
+
+                    if (data.status === "OK") {
+                        // Preencher os campos com as informações retornadas pela API
+                        document.getElementById('usuarioNome').innerText = data.nome;
+                        document.getElementById('dataNascimento').value = data.nascimento;
+                        document.getElementById('sexo').value = data.sexo; // Certifique-se que o valor retornado é compatível com os valores do select
+                    } else {
+                        alert("CPF não encontrado ou inválido.");
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar dados:", error);
+                    alert("Erro ao buscar dados. Tente novamente.");
+                }
+            }
+        }
+        function formatarTelefone(input) {
+            let numero = input.value.replace(/\D/g, '')
+            if (numero.length <= 10) {
+                numero = numero.replace(/^(\d{2})(\d{4})(\d{0,4})/, "($1)$2-$3");
+            } else {
+                numero = numero.replace(/^(\d{2})(\d{5})(\d{0,4})/, "($1)$2-$3");
+            }
+        }
     </script>
 </body>
 

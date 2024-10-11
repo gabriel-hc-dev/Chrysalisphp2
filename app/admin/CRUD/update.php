@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-
 </head>
 
 <body>
@@ -36,7 +35,7 @@
                     if ($result->num_rows == 1) {
                         $row = $result->fetch_assoc();
             ?>
-                        <form action="update.php?idProduto=<?php echo $idProduto; ?>" method="post">
+                        <form action="update.php?idProduto=<?php echo $idProduto; ?>" method="post" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <label for="preco">Preço</label>
@@ -58,7 +57,7 @@
                                 </div>
                                 <div class="mb-6">
                                     <label for="subgrupo">Subgrupo</label>
-                                    <input type="subgrupo" name="subgrupo" id="subgrupo"
+                                    <input type="text" name="subgrupo" id="subgrupo"
                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
                                         value="<?php echo htmlspecialchars($row['subGrupo']); ?>" required>
                                 </div>
@@ -95,6 +94,7 @@
                 }
             }
 
+            // Processo de update
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['idProduto'])) {
                 $id = $_GET['idProduto'];
                 $precoNovo = $_POST['preco'];
@@ -102,24 +102,28 @@
                 $grupoNovo = $_POST['grupo'];
                 $subgrupoNovo = $_POST['subgrupo'];
                 $generoNovo = $_POST['genero'];
-                $imagemNovo = $_POST['imagem'];
-                $sqlUpdate = "UPDATE Produto SET valorProduto = ?, descricao = ?, grupo = ?, subgrupo = ?, genero = ?, imagem = ? WHERE idProduto = ?";
 
-                $stmt = $conexao->prepare($sqlUpdate);
-
-                if ($stmt) {
-                    $stmt->bind_param("sssssib", $precoNovo, $nomeNovo, $grupoNovo, $subgrupoNovo, $generoNovo, $id, $imagemNovo);
-
-                    if ($stmt->execute()) {
-                        echo "<script>alert('Dados alterados com sucesso!');</script>";
-                        header("Location: read.php");
-                        exit;
-                    } else {
-                        die("ERRO NO UPDATE: " . $stmt->error);
-                    }
+                // Se uma nova imagem for enviada, processa o upload
+                if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+                    $imagemNovo = file_get_contents($_FILES['imagem']['tmp_name']); // Lê o conteúdo do arquivo
+                    $sqlUpdate = "UPDATE Produto SET valorProduto = ?, descricao = ?, grupo = ?, subGrupo = ?, genero = ?, imagem = ? WHERE idProduto = ?";
+                    $stmt = $conexao->prepare($sqlUpdate);
+                    $stmt->bind_param("ssssssi", $precoNovo, $nomeNovo, $grupoNovo, $subgrupoNovo, $generoNovo, $imagemNovo, $id);
                 } else {
-                    die("Erro na preparação da query: " . $conexao->error);
+                    // Se não houver upload de imagem, atualiza sem modificar a imagem
+                    $sqlUpdate = "UPDATE Produto SET valorProduto = ?, descricao = ?, grupo = ?, subGrupo = ?, genero = ? WHERE idProduto = ?";
+                    $stmt = $conexao->prepare($sqlUpdate);
+                    $stmt->bind_param("sssssi", $precoNovo, $nomeNovo, $grupoNovo, $subgrupoNovo, $generoNovo, $id);
                 }
+
+                if ($stmt->execute()) {
+                    echo "<script>alert('Dados alterados com sucesso!');
+                    window.location.replace('read.php');
+                    </script>";
+                } else {
+                    die("ERRO NO UPDATE: " . $stmt->error);
+                }
+                $stmt->close();
             }
 ?>
     </main>

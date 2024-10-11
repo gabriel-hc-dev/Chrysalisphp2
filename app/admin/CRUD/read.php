@@ -11,35 +11,37 @@
     <title>Chrysalis - Sua Loja Preferida</title>
 </head>
 
-<body>
+<body class="bg-gray-100">
     <?php
     include("../headerAdmin.php");
     ?>
-    <div class="container mx-auto p-12 px-36">
+    
+    <div class="p-8">
         <h1 class="text-3xl font-semibold mb-8">Produtos Cadastrados</h1>
 
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="relative overflow-x-auto shadow-md w-full">
             <?php
             require('../../src/backend/conexao.php');
             $sqlSelect = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem FROM Produto;";
-
             $result = $conexao->query($sqlSelect);
 
             if ($result) {
-                echo "<table class='min-w-full text-sm text-left text-gray-600'>
-                    <thead class='bg-gray-100 text-gray-700'>
-                        <tr>
-                            <th class='px-6 py-4 border-b' scope='col'>CÓDIGO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>PREÇO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>DESCRIÇÃO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>GRUPO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>SUBGRUPO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>GÊNERO</th>
-                            <th class='px-6 py-4 border-b' scope='col'>IMAGEM</th>
-                            <th class='px-6 py-4 border-b' scope='col'>AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody>";
+                echo <<<HTML
+                    <table class='w-full min-w-full text-sm text-left text-gray-600'>
+                        <thead class='bg-gray-100 text-gray-700'>
+                            <tr>
+                                <th class='px-6 py-4 border-b' scope='col'>CÓDIGO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>PREÇO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>DESCRIÇÃO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>GRUPO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>SUBGRUPO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>GÊNERO</th>
+                                <th class='px-6 py-4 border-b' scope='col'>IMAGEM</th>
+                                <th class='px-6 py-4 border-b' scope='col'>AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    HTML;
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo <<<HTML
@@ -47,19 +49,19 @@
                             <th scope='row' class='px-6 py-4 font-medium text-gray-900'>{$row['idProduto']}</th>
                     HTML;
                         // Saída do valor formatado fora do heredoc
-                        echo "<td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>R$ " . number_format($row['valorProduto'], 2, ',', '.') . "</td>";
+                        echo "<td class='px-6 py-4 cursor-default transition-all'>R$ " . number_format($row['valorProduto'], 2, ',', '.') . "</td>";
                         echo <<<HTML
-                            <td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>{$row['descricao']}</td>
-                            <td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>{$row['grupo']}</td>
-                            <td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>{$row['subGrupo']}</td>
-                            <td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>{$row['genero']}</td>
-                            <td class='px-6 py-4 hover:scale-105 cursor-default transition-all'>
+                            <td class='px-6 py-4 cursor-default transition-all'>{$row['descricao']}</td>
+                            <td class='px-6 py-4 cursor-default transition-all'>{$row['grupo']}</td>
+                            <td class='px-6 py-4 cursor-default transition-all'>{$row['subGrupo']}</td>
+                            <td class='px-6 py-4 cursor-default transition-all'>{$row['genero']}</td>
+                            <td class='px-6 py-4 cursor-default transition-all'>
                     HTML;
                         // Saída da imagem em PHP
                         echo '<img src="data:image/jpeg;base64,' . base64_encode($row['imagem']) . '" alt="Imagem do produto" class="w-32 h-32 object-cover rounded-md">';
                         echo <<<HTML
                             </td>
-                            <td class='px-6 py-4'>
+                            <td class='px-6 py-4 flex flex-nowrap justify-center'>
                                 <a href='update.php?idProduto={$row['idProduto']}' class='transition-all bg-blue-500 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-blue-600 duration-300'>Editar</a>
                                 <a href='delete.php?idProduto={$row['idProduto']}' class='transition-all bg-red-500 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-red-700 duration-300 ml-4'>Deletar</a>
                             </td>
@@ -68,7 +70,7 @@
                     }
                 } else {
                     echo "<tr>
-                            <td colspan='7' class='px-6 py-4 text-center text-gray-500'>Nenhum registro encontrado.</td>
+                            <td colspan='8' class='px-6 py-4 text-center text-gray-500'>Nenhum registro encontrado.</td>
                         </tr>";
                 }
                 echo "</tbody></table>";
@@ -78,7 +80,8 @@
             ?>
         </div>
     </div>
-    <?php include('../../src/pages/footer.php');
-    ?>
-    </main>
+
+    <?php include('../../src/pages/footer.php'); ?>
 </body>
+
+</html>
