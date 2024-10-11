@@ -11,27 +11,37 @@
 </head>
 
 <body class="bg-white text-gray-900">
-    <?php
-    include("header.php");
-    include("../backend/conexao.php"); // Inclua sua conexão ao banco de dados
+<?php
+include("header.php");
+include("../backend/conexao.php"); // Inclua sua conexão ao banco de dados
 
-    // Verifica se o ID do produto foi passado na URL
-    if (isset($_GET['id'])) {
-        $idProduto = $_GET['id'];
+// Verifica se o ID do produto foi passado na URL
+if (isset($_GET['id'])) {
+    $idProduto = $_GET['id'];
 
-        // Prepara a consulta para buscar os dados do produto pelo ID
-        $sql = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem FROM Produto WHERE idProduto = ?";
-        $stmt = $conexao->prepare($sql);
-        $stmt->bind_param("i", $idProduto);
-        $stmt->execute();
-        $stmt->bind_result($idProduto, $valorProduto, $descricao, $grupo, $subgrupo, $genero, $imagem);
-        $stmt->fetch();
-        $stmt->close();
-    } else {
-        echo "<p>Produto não encontrado.</p>";
-        exit;
-    }
-    ?>
+    // Prepara a consulta para buscar os dados do produto pelo ID
+    $sql = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem FROM Produto WHERE idProduto = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $idProduto);
+    $stmt->execute();
+    $stmt->bind_result($idProduto, $valorProduto, $descricao, $grupo, $subgrupo, $genero, $imagem);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Prepara a consulta para buscar o número de avaliações
+    $sql = "SELECT count(idFeedback) FROM Feedback WHERE idProduto = ?";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("i", $idProduto);
+    $stmt->execute();
+    $stmt->bind_result($numeroAvaliacoes);
+    $stmt->fetch();
+    $stmt->close();
+} else {
+    echo "<p>Produto não encontrado.</p>";
+    exit;
+}
+?>
+
 
     <section class="flex items-center justify-center min-h-screen">
         <div class="container mx-auto p-6">
@@ -40,19 +50,23 @@
                 <!-- Imagem do produto -->
                 <?php
                 if ($imagem) {
-                    echo '<img class="w-5/6 m-8" src="data:image/png;base64,' . base64_encode($imagem) . '" alt="' . $grupo.' '.$subgrupo.' '. $descricao . '" style="height:500px; width: 500px;">';
+                    echo '<img class="w-5/6 m-4 rounded-lg object-contain" src="data:image/png;base64,' . base64_encode($imagem) . '" alt="' . $grupo . ' ' . $subgrupo . ' ' . $descricao . '" style="height:500px; width: 500px;">';
                 } else {
-                    echo '<img class="w-5/6 m-8" src="https://via.placeholder.com/500" alt="Imagem não disponível" style="height:500px; width: 500px;">';
+                    echo '<img class="w-5/6 m-4 rounded-lg object-contain" src="https://via.placeholder.com/500" alt="Imagem não disponível" style="height:500px; width: 500px;">';
                 }
                 ?>
 
                 <!-- Detalhes do produto -->
                 <div class="md:w-1/2 mt-6 md:mt-0">
-                    <h1 class="text-3xl font-bold text-start md:text-left"><?php echo $grupo.' '. $subgrupo.' '. $descricao; ?></h1>
-                    <p class="text-zinc-400 text-lg mt-4 text-start md:text-left">⭐ número Avaliações</p>
+                    <h1 class="text-3xl font-bold text-start md:text-left"><?php echo $grupo . ' ' . $subgrupo . ' ' . $descricao; ?></h1>
+                    <span class="text-zinc-400 text-lg mt-4 text-start md:text-left flex items-center justify-start"><svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 22 20">
+                            <path
+                                d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                        </svg>&nbsp; $numeroAvaliacoes Avaliações</span>
                     <p class="text-4xl font-bold mt-4 text-start md:text-left">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
 
-                    <p class="mt-6 text-start md:text-left"><?php echo $grupo.' '. $subgrupo.' '. $descricao; ?></p>
+                    <p class="mt-6 text-start md:text-left"><?php echo $grupo . ' ' . $subgrupo . ' ' . $descricao; ?></p>
 
                     <!-- Tamanhos Disponíveis, Opções de Entrega, Botão de Adicionar ao Carrinho podem permanecer fixos ou ser dinâmicos, conforme necessário -->
 
@@ -63,7 +77,7 @@
             </div>
 
             <!-- Seção de comentários, avaliações, etc. -->
-             <!-- Adicionar Avaliação -->
+            <!-- Adicionar Avaliação -->
             <div class="mt-12 mb-8">
                 <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2>
                 <div class="flex flex-col items-center space-y-4 mt-4">
@@ -126,7 +140,7 @@
                         <p class="mt-2 text-gray-700">Bom produto, mas demorou um pouco para chegar.</p>
                     </div>
                 </div>
-        </div>
+            </div>
     </section>
 
     <?php include("footer.php"); ?>
