@@ -62,10 +62,13 @@
                                         value="<?php echo htmlspecialchars($row['subGrupo']); ?>" required>
                                 </div>
                                 <div class="mb-6">
-                                    <label for="genero">Gênero</label>
-                                    <input type="text" name="genero" id="genero"
-                                        class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
-                                        value="<?php echo htmlspecialchars($row['genero']); ?>" required>
+                                <label for="genero">Gênero</label>
+                                 <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white" required>
+                                     <option disabled selected>Escolha o Gênero</option>
+                                     <option value="M">Masculino</option>
+        '                            <option value="F">Feminino</option>
+                                     <option value="U">Unissex</option>
+                                  </select>   
                                 </div>
                                 <!-- Imagem -->
                                 <div class="mb-6">
