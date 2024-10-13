@@ -28,47 +28,65 @@
                     <div class="mb-4">
                         <div class="mb-4">
                             <label for="preco">Preço</label>
-                            <input type="text" name="preco" id="preco"  placeholder="(Ex: 19.99)"
+                            <input type="text" name="preco" id="preco" placeholder="Ex: 197.90"
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
-                            <label for="nome">Nome</label>
-                            <input type="text" name="nome" id="nome"  placeholder="(Ex: Calça, Camisa, Meia)"
+                            <label for="nome">Cor, detalhes</label>
+                            <input type="text" name="nome" id="nome" placeholder="Ex: Azul, reta..."
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="grupo">Grupo</label>
-                            <input type="text" name="grupo" id="grupo"  placeholder="(Ex: Moletom, Jeans, Social)"
+                            <input type="text" name="grupo" id="grupo" placeholder="Ex: Calça, camiseta..."
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
-                            <label for="subgrupo" >Subgrupo</label>
-                            <input type="text" name="subgrupo" id="subgrupo"  placeholder="(Ex: Reta Preto)"
+                            <label for="subgrupo">Subgrupo</label>
+                            <input type="text" name="subgrupo" id="subgrupo" placeholder="Ex: Jeans, moletom..."
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="genero">Gênero</label>
-                           <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white" required>
-                            <option disabled selected>Escolha o Gênero</option>
-                            <option value="M">Masculino</option>
-        '                   <option value="F">Feminino</option>
-                            <option value="U">Unissex</option>
-                           </select>                    
+                            <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white" required>
+                                <option value="U">Unissex</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
                         </div>
                         <!-- Imagem -->
                         <div class="mb-6">
-                            <label for="imagem">Alterar Imagem</label>
-                            <!-- Campo para upload de nova imagem -->
-                            <input type="file" name="imagem" id="imagem"
-                                class="block appearance-none file:from-orange-500 w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded-lg"
-                                accept="image/*"> <!-- permite selecionar apenas arquivos de imagem -->
+                            <!-- Input de imagem escondido -->
+                            <input type="file" name="imagem" id="imagem" accept="image/*"
+                                class="hidden" onchange="mostrarNomeArquivo()">
+
+                            <!-- Label estilizada que funciona como botão -->
+                            <label for="imagem"
+                                class="cursor-pointer border border-gray-300 bg-transparent text-gray-800 hover:text-white hover:bg-orange-500 py-2 px-4 rounded-lg transition-all">
+                                Editar Imagem
+                            </label>
+
+                            <!-- Espaço para mostrar o nome do arquivo -->
+                            <span id="file-name" class="ml-4 text-gray-700">Nenhum arquivo selecionado</span>
                         </div>
+
+                        <script>
+                            function mostrarNomeArquivo() {
+                                const input = document.getElementById('imagem');
+                                const fileName = document.getElementById('file-name');
+
+                                // Se um arquivo foi selecionado, exibe o nome dele. Caso contrário, exibe o texto padrão.
+                                fileName.textContent = input.files.length > 0 ? input.files[0].name : 'Nenhum arquivo selecionado';
+                            }
+                        </script>
+
+
                     </div>
-                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white bg-orange-500 hover:bg-orange-700 rounded-lg text-center">Cadastrar</button>
+                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white hover:text-white bg-orange-400 hover:bg-orange-500 rounded-lg text-center hover:scale-105">Cadastrar produto</button>
                 </form>
             </div>
         </div>
