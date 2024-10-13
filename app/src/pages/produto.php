@@ -43,10 +43,10 @@
     }
     switch (trim($genero)) {
         case "M":
-            $genero = "Masculino(a)";
+            $genero = "Masculino";
             break;
         case "F":
-            $genero = "Feminino(a)";
+            $genero = "Feminino";
             break;
         case "U":
             $genero = "Unissex";
@@ -76,7 +76,7 @@
 
                 <!-- Detalhes do produto -->
                 <div class="md:w-1/2 mt-6 md:mt-0"> <!-- Define a largura do texto e ajustes de margens para diferentes telas -->
-                    <h1 class="text-3xl font-bold text-start md:text-left"><?php echo $grupo . ' ' . $subgrupo . ' ' . $descricao . ' ' . $genero; ?></h1> <!-- Título do produto -->
+                    <h1 class="text-3xl font-bold text-start md:text-left"><?php echo $descricao . ' ' . $grupo . ' ' . $subgrupo . ' ' . $genero; ?></h1> <!-- Título do produto -->
                     <span class="text-zinc-400 text-lg mt-4 text-start md:text-left flex items-center justify-start"> <!-- Texto com ícone de estrela e número de avaliações -->
                         <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
@@ -85,7 +85,7 @@
                     </span>
                     <p class="text-4xl font-bold mt-4 text-start md:text-left">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p> <!-- Preço do produto formatado para o formato brasileiro -->
 
-                    <p class="mt-6 text-start md:text-left"><?php echo $grupo . ' ' . $subgrupo . ' ' . $descricao . ' ' . $genero; ?></p> <!-- Descrição adicional do produto -->
+                    <p class="mt-6 text-start md:text-left"><?php echo $descricao . ' ' . $grupo . ' ' . $subgrupo . ' ' . $genero; ?></p> <!-- Descrição adicional do produto -->
 
                     <!-- Botão para adicionar ao carrinho -->
                     <div class="mt-6">
@@ -94,28 +94,29 @@
                 </div>
             </div>
 
-            <!-- Seção de Adicionar Avaliação -->
-            <div class="mt-12 mb-8">
-                <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2> <!-- Título da seção de avaliação -->
-                <div class="flex flex-col items-center space-y-4 mt-4"> <!-- Estrutura flexível para a avaliação -->
+<!-- Seção de Adicionar Avaliação -->
+<div class="mt-12 mb-8">
+    <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2>
+    <form action="produto.php?id=<?php echo $idProduto; ?>" method="POST" class="flex flex-col items-center space-y-4 mt-4">
+        <!-- Botões de avaliação por estrelas -->
+        <div class="flex space-x-1">
+            <input type="hidden" name="avaliacao" id="avaliacao" value="0">
+            <button type="button" onclick="avaliarPorEstrelas(1)">⭐</button>
+            <button type="button" onclick="avaliarPorEstrelas(2)">⭐</button>
+            <button type="button" onclick="avaliarPorEstrelas(3)">⭐</button>
+            <button type="button" onclick="avaliarPorEstrelas(4)">⭐</button>
+            <button type="button" onclick="avaliarPorEstrelas(5)">⭐</button>
+        </div>
 
-                    <!-- Botões de avaliação por estrelas -->
-                    <div class="flex space-x-1">
-                        <button class="text-gray-400 hover:text-orange-500"><i class="fas fa-star"></i></button>
-                        <button class="text-gray-400 hover:text-orange-500"><i class="fas fa-star"></i></button>
-                        <button class="text-gray-400 hover:text-orange-500"><i class="fas fa-star"></i></button>
-                        <button class="text-gray-400 hover:text-orange-500"><i class="fas fa-star"></i></button>
-                        <button class="text-gray-400 hover:text-orange-500"><i class="fas fa-star"></i></button>
-                    </div>
+        <!-- Caixa de texto para comentário -->
+        <textarea class="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
+            name="comentario" placeholder="Adicione um comentário (opcional)"></textarea>
 
-                    <!-- Caixa de texto para comentário -->
-                    <textarea class="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500" placeholder="Adicione um comentário (opcional)"></textarea>
-
-                    <!-- Botão de enviar avaliação -->
-                    <button class="py-2 px-6 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-500 transition-all duration-300">Enviar Avaliação</button>
-                </div>
-            </div>
-
+        <!-- Botão de enviar avaliação -->
+        <button type="submit" name="enviarAvaliacao"
+            class="py-2 px-6 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-500 transition-all duration-300">Enviar Avaliação</button>
+    </form>
+</div>
             <!-- Seção de comentários -->
             <div class="mt-12">
                 <h2 class="text-2xl font-bold text-center">Comentários</h2> <!-- Título da seção de comentários -->
@@ -161,6 +162,11 @@
             </div>
     </section>
     <?php include("footer.php"); ?> <!-- Inclui o rodapé do site -->
+    <script>
+function avaliarPorEstrelas(value) {
+    document.getElementById('avaliacao').value = value;
+}
+</script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Script do Flowbite -->
 </body>
 

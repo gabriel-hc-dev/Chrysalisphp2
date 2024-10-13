@@ -28,40 +28,43 @@
                     <div class="mb-4">
                         <div class="mb-4">
                             <label for="preco">Preço</label>
-                            <input type="text" name="preco" id="preco"
+                            <input type="text" name="preco" id="preco"  placeholder="(Ex: 19.99)"
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="nome">Nome</label>
-                            <input type="text" name="nome" id="nome"
+                            <input type="text" name="nome" id="nome"  placeholder="(Ex: Calça, Camisa, Meia)"
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="grupo">Grupo</label>
-                            <input type="text" name="grupo" id="grupo"
+                            <input type="text" name="grupo" id="grupo"  placeholder="(Ex: Moletom, Jeans, Social)"
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
-                            <label for="subgrupo">Subgrupo</label>
-                            <input type="text" name="subgrupo" id="subgrupo"
+                            <label for="subgrupo" >Subgrupo</label>
+                            <input type="text" name="subgrupo" id="subgrupo"  placeholder="(Ex: Reta Preto)"
                                 class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
                                 required>
                         </div>
                         <div class="mb-6">
                             <label for="genero">Gênero</label>
-                            <input type="text" name="genero" id="genero"
-                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
-                                required>
+                           <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white" required>
+                            <option disabled selected>Escolha o Gênero</option>
+                            <option value="M">Masculino</option>
+        '                   <option value="F">Feminino</option>
+                            <option value="U">Unissex</option>
+                           </select>                    
                         </div>
                         <!-- Imagem -->
                         <div class="mb-6">
                             <label for="imagem">Alterar Imagem</label>
                             <!-- Campo para upload de nova imagem -->
                             <input type="file" name="imagem" id="imagem"
-                                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                                class="block appearance-none file:from-orange-500 w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded-lg"
                                 accept="image/*"> <!-- permite selecionar apenas arquivos de imagem -->
                         </div>
                     </div>
