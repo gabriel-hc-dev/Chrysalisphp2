@@ -15,7 +15,7 @@
     <?php
     include("../headerAdmin.php");
     ?>
-    
+
     <div class="p-8">
         <h1 class="text-3xl font-semibold mb-8">Produtos Cadastrados</h1>
 
@@ -42,19 +42,34 @@
                         </thead>
                         <tbody>
                     HTML;
+
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        // Lógica para converter o valor do gênero
+                        switch (trim($row['genero'])) {
+                            case "M":
+                                $genero = "Masculino(a)";
+                                break;
+                            case "F":
+                                $genero = "Feminino(a)";
+                                break;
+                            default:
+                                $genero = "Unissex";
+                                break;
+                        }
+
                         echo <<<HTML
                         <tr class='bg-white border-b hover:bg-gray-50'>
                             <th scope='row' class='px-6 py-4 font-medium text-gray-900'>{$row['idProduto']}</th>
                     HTML;
+
                         // Saída do valor formatado fora do heredoc
                         echo "<td class='px-6 py-4 cursor-default transition-all'>R$ " . number_format($row['valorProduto'], 2, ',', '.') . "</td>";
                         echo <<<HTML
                             <td class='px-6 py-4 cursor-default transition-all'>{$row['descricao']}</td>
                             <td class='px-6 py-4 cursor-default transition-all'>{$row['grupo']}</td>
                             <td class='px-6 py-4 cursor-default transition-all'>{$row['subGrupo']}</td>
-                            <td class='px-6 py-4 cursor-default transition-all'>{$row['genero']}</td>
+                            <td class='px-6 py-4 cursor-default transition-all'>{$genero}</td>
                             <td class='px-6 py-4 cursor-default transition-all'>
                     HTML;
                         // Saída da imagem em PHP
