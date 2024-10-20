@@ -21,8 +21,26 @@
     }
 
     // Lógica para adicionar produto ao carrinho
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar_ao_carrinho'])) {
+    $produtoExiste = false; // Inicializa a variável aqui
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar_carrinho'])) {
         $idProduto = $_POST['idProduto'];
+
+        // Obtenha o produto do banco de dados para definir as variáveis $descricao e $valorProduto
+        $sql = "SELECT descricao, valorProduto FROM Produto WHERE idProduto = ?";
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param("i", $idProduto);
+        $stmt->execute();
+        $stmt->bind_result($descricao, $valorProduto);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Se o produto não for encontrado, trate isso aqui
+        if (!$descricao || !$valorProduto) {
+            echo "Produto não encontrado.";
+            exit;
+        }
+
         $produto = [
             'id' => $idProduto,
             'descricao' => $descricao,
@@ -31,7 +49,6 @@
         ];
 
         // Verifica se o produto já está no carrinho
-        $produtoExiste = false;
         foreach ($_SESSION['carrinho'] as &$item) {
             if ($item['id'] == $idProduto) {
                 $item['quantidade']++; // Incrementa a quantidade se já existir
@@ -40,22 +57,24 @@
             }
         }
 
-        // Se o produto não existir, adiciona ao carrinho
+        // Se o produto não existe no carrinho, adiciona-o
         if (!$produtoExiste) {
             $_SESSION['carrinho'][] = $produto;
         }
 
-        // Redireciona para evitar reenvio de formulário
-        header("Location: produto.php?id=" . $idProduto);
-        exit();
+        echo "Produto adicionado ao carrinho com sucesso!";
     }
+
+    // Se o produto não existir, adiciona ao carrinho
+    // (Removido a lógica duplicada)
+
     if (isset($_GET['id'])) {
         $idProduto = $_GET['id'];
 
         // Consulta SQL para buscar os detalhes do produto
         $sql = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem 
-                FROM Produto 
-                WHERE idProduto = ?";
+            FROM Produto 
+            WHERE idProduto = ?";
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("i", $idProduto);
         $stmt->execute();
@@ -74,7 +93,8 @@
         exit;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Lógica para adicionar feedback
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'])) {
         $nota = $_POST['avaliacao'];
         $comentario = $_POST['comentario'];
         $idUsuario = 1; // Aqui você deve capturar o ID do usuário logado
@@ -93,9 +113,7 @@
         }
     }
 
-
-
-
+    // Lógica para deletar feedback
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_feedback'])) {
         $idFeedback = $_POST['idFeedback'];
         $idUsuario = 1; // Capturar o ID do usuário logado aqui
@@ -116,13 +134,10 @@
             $stmtDelete->bind_param("i", $idFeedback);
             $stmtDelete->execute();
             $stmtDelete->close();
-            // Você pode adicionar uma mensagem de sucesso aqui, se desejar
-        } else {
-            // Se o usuário não for o autor do feedback, você pode adicionar uma mensagem de erro
         }
     }
 
-
+    // Lógica para exibir o gênero
     switch (trim($genero)) {
         case "M":
             $genero = "Masculino(a)";
@@ -135,6 +150,7 @@
             break;
     }
     ?>
+
 
     <section class="flex items-center justify-center min-h-screen">
         <div class="container mx-auto p-6">
