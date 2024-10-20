@@ -68,7 +68,6 @@ $conexao->query("CREATE TABLE IF NOT EXISTS Carrinho (
     idCarrinho INT AUTO_INCREMENT PRIMARY KEY,
     tamanhoCarrinho INT NOT NULL,
     idUsuario INT,
-    valorCarrinho REAL NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
     )");
 

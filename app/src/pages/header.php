@@ -67,7 +67,7 @@ if(!isset($_SESSION)){
                             class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 text-white hover:underline hover:scale-125 active:scale-150 transition-all duration-300">Sobre</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="carrinho.php"
                             class="block py-2 px-3 rounded md:hover:bg-transparent md:border-0 md:p-0 hover:scale-125 transition-all"><img
                                 src="../../public/assets/images/icons/cart.svg" alt="Carrinho"
                                 style="filter: invert(100%)"></a>

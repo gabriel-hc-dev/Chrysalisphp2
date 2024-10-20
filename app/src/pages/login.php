@@ -32,7 +32,7 @@
                 // Autenticação bem-sucedida, armazena o ID do usuário na sessão
                 $_SESSION['usuario_id'] = $usuario['idPessoa']; 
                 $_SESSION['usuario_email'] = $usuario['loginUsuario']; // Salvar o e-mail, se necessário
-                
+
                 // Redireciona para a página inicial ou outra página após login
                 header("Location: index.php");
                 exit();
@@ -44,8 +44,8 @@
         }
     }
     ?>
-    
-    
+
+
     <?php include('header.php'); ?>
 
     <main>
@@ -86,11 +86,11 @@
             </div>
         </section>
     </main>
-    <?php include("footer.php"); 
+    <?php include("footer.php");
     ?>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    
+
 </body>
 
 </html>
