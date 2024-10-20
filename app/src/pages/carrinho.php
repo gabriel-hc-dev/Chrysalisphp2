@@ -28,17 +28,24 @@ if (isset($_GET['remove'])) {
 
 // Buscar produtos do banco de dados
 $produtos = [];
-$query = "SELECT idProduto, descricao, valorProduto FROM Produto";
+$query = "SELECT idProduto, grupo, subgrupo, descricao, genero, valorProduto, imagem FROM Produto"; // Incluindo imagem
 $result = $conexao->query($query);
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $produtos[$row['idProduto']] = [
-            'nome' => $row['descricao'],
-            'preco' => $row['valorProduto']
+            'grupo' => $row['grupo'] ?? '',
+            'subgrupo' => $row['subgrupo'] ?? '',
+            'descricao' => $row['descricao'] ?? '',
+            'genero' => $row['genero'] ?? '',
+            'preco' => $row['valorProduto'] ?? 0,
+            'imagem' => $row['imagem'] ?? null // Armazena a imagem
         ];
     }
+} else {
+    // Se não houver resultados, você pode inicializar $produtos como um array vazio ou lidar de outra forma
+    $produtos = [];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -64,12 +71,26 @@ if ($result->num_rows > 0) {
                             <?php if (isset($produtos[$idProduto])): ?>
                                 <div class="flex items-center justify-between border-b pb-4">
                                     <div class="flex items-center">
-                                        <img src="https://via.placeholder.com/100" alt="Produto" class="w-16 h-16 rounded-md">
+                                        <!-- Use base64_encode para converter a imagem em um formato que pode ser exibido diretamente -->
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($produtos[$idProduto]['imagem']) ?>" alt="Produto" class="w-16 h-16 rounded-md">
                                         <div class="ml-4">
-                                            <p class="text-lg font-semibold"><?= $produtos[$idProduto]['nome'] ?></p>
-                                            <p class="text-gray-500">R$ <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
+                                            <?php if (isset($produtos[$idProduto])): ?>
+                                                <p class="text-lg font-semibold">
+                                                    <?= trim(
+                                                        $produtos[$idProduto]['grupo'] . ' ' .
+                                                            $produtos[$idProduto]['subgrupo'] . ' ' .
+                                                            $produtos[$idProduto]['descricao'] . ' ' .
+                                                            $produtos[$idProduto]['genero']
+                                                    ); ?>
+                                                </p>
+                                                <p class="text-gray-500">R$ <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
+                                            <?php else: ?>
+                                                <p class="text-lg font-semibold">Produto não encontrado</p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
+
+
                                     <div class="flex items-center">
                                         <a href="carrinho.php?remove=<?= $idProduto ?>" class="px-2 py-1 bg-orange-500 text-white rounded-lg">-</a>
                                         <span class="mx-2 text-lg"><?= $quantidade ?></span>
@@ -115,4 +136,5 @@ if ($result->num_rows > 0) {
     </div>
 </body>
 <?php include('footer.php'); ?>
+
 </html>

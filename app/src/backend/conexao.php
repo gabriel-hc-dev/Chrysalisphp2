@@ -38,14 +38,6 @@ $conexao->query("CREATE TABLE IF NOT EXISTS Pessoa (
     FOREIGN KEY (cep) REFERENCES Endereco(cep)
     )");
 
-// $conexao->query("CREATE TABLE IF NOT EXISTS Administrador (
-//     idAdmin INT AUTO_INCREMENT PRIMARY KEY,
-//     loginAdmin VARCHAR(200) NOT NULL,
-//     senha VARCHAR(255) NOT NULL,
-//     idPessoa INT,
-//     FOREIGN KEY (idPessoa) REFERENCES Pessoa(idPessoa)
-//     )");
-
 $conexao->query("CREATE TABLE IF NOT EXISTS Usuario (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     loginUsuario VARCHAR(200) NOT NULL,
