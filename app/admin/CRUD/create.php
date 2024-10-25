@@ -125,7 +125,9 @@
             }
 
             if ($stmt->execute()) {
-                echo "<script>alert('Produto cadastrado com sucesso!');</script>";
+                echo "<script>alert('Produto cadastrado com sucesso!');
+                        window.location.replace('read.php');
+                      </script>";
             } else {
                 die("Erro ao executar a query: " . $stmt->error);
             }
