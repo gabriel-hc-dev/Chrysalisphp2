@@ -29,10 +29,11 @@
 
             // Verifica se a senha fornecida corresponde à senha armazenada
             if (password_verify($password, $usuario['senha'])) {
-                // Autenticação bem-sucedida, armazena o ID do usuário na sessão
-                $_SESSION['usuario_id'] = $usuario['idPessoa']; 
+                // Autenticação bem-sucedida, armazena o ID do usuário e informações na sessão
+                $_SESSION['usuario_id'] = $usuario['idPessoa'];
                 $_SESSION['usuario_email'] = $usuario['loginUsuario']; // Salvar o e-mail, se necessário
-
+                $_SESSION['is_admin'] = ($usuario['loginUsuario'] === 'administradorchrysalis@gmail.com'); // Verifica se é admin
+    
                 // Redireciona para a página inicial ou outra página após login
                 header("Location: index.php");
                 exit();
@@ -50,12 +51,15 @@
 
     <main>
         <section class="flex justify-center p-4 bg-gray-50">
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0" style="width: 50%">
+            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+                style="width: 50%">
                 <div class="w-dvw bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0 transition-all shadow scale-125">
                     <div class="p-6 md:space-y-4 sm:p-8">
-                        <h1 class="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Entrar</h1>
+                        <h1 class="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Entrar
+                        </h1>
                         <p class="text-sm font-light text-gray-500">
-                            Ainda não possui login? <a href="cadastro.php" class="font-medium text-orange-500 hover:underline">Cadastre-se</a>
+                            Ainda não possui login? <a href="cadastro.php"
+                                class="font-medium text-orange-500 hover:underline">Cadastre-se</a>
                         </p>
 
                         <?php if (isset($erro)): ?>
@@ -73,8 +77,7 @@
                             </div>
                             <div>
                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
-                                <input type="password" name="password" id="password"
-                                    placeholder="••••••••"
+                                <input type="password" name="password" id="password" placeholder="••••••••"
                                     class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1"
                                     required>
                             </div>

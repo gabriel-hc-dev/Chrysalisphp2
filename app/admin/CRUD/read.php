@@ -13,7 +13,14 @@
 
 <body class="bg-gray-100">
     <?php
-    include("../headerAdmin.php");
+    include("headerCRUD.php");
+    session_start();
+
+    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+        // Se o usuário não estiver logado ou não for o administrador
+        header('Location: ../../src/pages/index.php'); // Redireciona para a página index 
+        exit();
+    }
     ?>
 
     <div class="p-8">

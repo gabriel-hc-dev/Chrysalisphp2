@@ -9,13 +9,26 @@
     <link rel="stylesheet" href="../styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-
 </head>
 
 <body>
     <?php
+    session_start(); // Inicia a sessão
     include('../backend/conexao.php');
-    include('header.php');
+
+    // Verifica se o usuário está logado
+    if (!isset($_SESSION['usuario_email'])) {
+        header('Location: login.php'); // Redireciona para a página de login se não estiver logado
+        exit();
+    }
+
+    // Se for um admin, redireciona para indexAdmin.php
+    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+        header('Location: ../../admin/indexAdmin.php'); // Redireciona para a página index de admin
+        exit();
+    }
+
+    include('header.php'); // Inclui o cabeçalho para usuários comuns
     ?>
     <main>
         <div id="alerts" class="text-white mx-auto text-center py-4 w-vw" style="background-color: rgb(24, 24, 24);">
@@ -34,7 +47,6 @@
                 <?php
                 include('card.php');
                 ?>
-
             </section>
         </section>
     </main>

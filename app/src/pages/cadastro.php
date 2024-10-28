@@ -108,7 +108,7 @@
                             required>
                     </div>
                     <div class="ml-3 text-sm">
-                        <label for="terms" class="font-light text-gray-500">Eu aceito os <a
+                        <label for="terms" class="font-light text-gray-500" required>Eu aceito os <a
                                 class="font-medium text-orange-500 hover:underline"
                                 href="">Termos e Condições</a></label>
                     </div>

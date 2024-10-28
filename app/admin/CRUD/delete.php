@@ -1,5 +1,5 @@
     <?php
-    include("../headerAdmin.php");
+    include("headerCRUD.php");
     require('../../src/backend/conexao.php');
     if ($_SERVER["REQUEST_METHOD"] == 'GET' && isset($_GET['idProduto'])) {
         $idProduto = $_GET['idProduto'];
