@@ -15,26 +15,22 @@
 <body>
     <?php
     session_start();
-    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-        header('Location: login.php'); // Redireciona para a página de login se não estiver logado ou não for admin
+    if (!isset($_SESSION['usuario_id']) || !$_SESSION['is_admin']) {
+        header("Location: error.php"); // Redireciona para uma página de erro se não for admin
         exit();
     }
     ?>
 
-    <!DOCTYPE html>
-    <html lang="pt-br">
-
     <body>
         <?php
-        include('headerAdmin.php');
+        include('../../admin/headerAdmin.php');
         ?>
         <main>
-            <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold"
-                style="background-color: rgb(24, 24, 24);">
+            <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold" style="background-color: rgb(24, 24, 24);">
                 <span class="mx-4 font-normal">PÁGINA PARA ADMINISTRADORES</span>
             </div>
         </main>
-        <?php include("../src/pages/footer.php"); ?>
+        <?php include("footer.php"); ?>
     </body>
 
     </html>

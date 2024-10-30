@@ -8,3 +8,4 @@ $_SESSION = array();
 include_once('limparCache.php');
 header('Location: login.php');
 exit();
+?>

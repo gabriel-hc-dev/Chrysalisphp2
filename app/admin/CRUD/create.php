@@ -16,15 +16,15 @@
     <?php
     session_start();
     include("headerCRUD.php");
-
-    if (isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-        // Se o usuário não estiver logado ou não for o administrador
+    
+    // Verificação se o usuário é administrador
+    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+        // Se o usuário não estiver logado ou não for o administrador, redireciona para a página inicial
         echo "<script>
                 window.location.replace('../../src/pages/index.php');
-                </script>"; // Redireciona para a página index 
+              </script>";
         exit();
     }
-    
     ?>
     <main>
         <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold"
