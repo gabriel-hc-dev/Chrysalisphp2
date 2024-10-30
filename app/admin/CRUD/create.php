@@ -14,14 +14,17 @@
 
 <body>
     <?php
-    include("headerCRUD.php");
     session_start();
+    include("headerCRUD.php");
 
-    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+    if (isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
         // Se o usuário não estiver logado ou não for o administrador
-        header('Location: ../../src/pages/index.php'); // Redireciona para a página index 
+        echo "<script>
+                window.location.replace('../../src/pages/index.php');
+                </script>"; // Redireciona para a página index 
         exit();
     }
+    
     ?>
     <main>
         <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold"
@@ -92,7 +95,6 @@
                                 fileName.textContent = input.files.length > 0 ? input.files[0].name : 'Nenhum arquivo selecionado';
                             }
                         </script>
-
 
                     </div>
                     <button
