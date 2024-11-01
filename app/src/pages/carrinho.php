@@ -1,7 +1,12 @@
 <?php
 session_start();
-include('header.php');
 include('../backend/conexao.php');
+include('header.php');
+
+// Inicializa o carrinho na sessão se ainda não existir
+if (!isset($_SESSION['carrinho'])) {
+    $_SESSION['carrinho'] = [];
+}
 
 // Adiciona um produto ao carrinho
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar_carrinho'])) {
@@ -26,31 +31,36 @@ if (isset($_GET['remove'])) {
     }
 }
 
+// Adiciona um produto ao carrinho (incrementa a quantidade)
+if (isset($_GET['add'])) {
+    $idProduto = $_GET['add'];
+    if (isset($_SESSION['carrinho'][$idProduto])) {
+        $_SESSION['carrinho'][$idProduto]++;
+    }
+    echo ('<script>window.location.replace("carrinho.php");</script>');
+    exit();
+}
+
 // Buscar produtos do banco de dados
 $produtos = [];
-$query = "SELECT idProduto, grupo, subgrupo, descricao, genero, valorProduto, imagem FROM Produto"; // Incluindo imagem
+$query = "SELECT idProduto, grupo, subGrupo, descricao, genero, valorProduto, imagem FROM Produto";
 $result = $conexao->query($query);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $produtos[$row['idProduto']] = [
             'grupo' => $row['grupo'] ?? '',
-            'subgrupo' => $row['subgrupo'] ?? '',
+            'subgrupo' => $row['subGrupo'] ?? '',
             'descricao' => $row['descricao'] ?? '',
             'genero' => $row['genero'] ?? '',
             'preco' => $row['valorProduto'] ?? 0,
-            'imagem' => $row['imagem'] ?? null // Armazena a imagem
+            'imagem' => $row['imagem'] ?? null
         ];
     }
-} else {
-    // Se não houver resultados, você pode inicializar $produtos como um array vazio ou lidar de outra forma
-    $produtos = [];
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,25 +81,14 @@ if ($result->num_rows > 0) {
                             <?php if (isset($produtos[$idProduto])): ?>
                                 <div class="flex items-center justify-between border-b pb-4">
                                     <div class="flex items-center">
-                                        <!-- Use base64_encode para converter a imagem em um formato que pode ser exibido diretamente -->
                                         <img src="data:image/jpeg;base64,<?= base64_encode($produtos[$idProduto]['imagem']) ?>" alt="Produto" class="w-16 h-16 rounded-md">
                                         <div class="ml-4">
-                                            <?php if (isset($produtos[$idProduto])): ?>
-                                                <p class="text-lg font-semibold">
-                                                    <?= trim(
-                                                        $produtos[$idProduto]['grupo'] . ' ' .
-                                                            $produtos[$idProduto]['subgrupo'] . ' ' .
-                                                            $produtos[$idProduto]['descricao'] . ' ' .
-                                                            $produtos[$idProduto]['genero']
-                                                    ); ?>
-                                                </p>
-                                                <p class="text-gray-500">R$ <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
-                                            <?php else: ?>
-                                                <p class="text-lg font-semibold">Produto não encontrado</p>
-                                            <?php endif; ?>
+                                            <p class="text-lg font-semibold">
+                                                <?= htmlspecialchars(trim($produtos[$idProduto]['grupo'] . ' ' . $produtos[$idProduto]['subgrupo'] . ' ' . $produtos[$idProduto]['descricao'] . ' ' . $produtos[$idProduto]['genero'])) ?>
+                                            </p>
+                                            <p class="text-gray-500">R$ <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
                                         </div>
                                     </div>
-
 
                                     <div class="flex items-center">
                                         <a href="carrinho.php?remove=<?= $idProduto ?>" class="px-2 py-1 bg-orange-500 text-white rounded-lg">-</a>
@@ -97,6 +96,7 @@ if ($result->num_rows > 0) {
                                         <a href="carrinho.php?add=<?= $idProduto ?>" class="px-2 py-1 bg-orange-500 text-white rounded-lg">+</a>
                                     </div>
                                 </div>
+                            <?php else: ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -119,7 +119,7 @@ if ($result->num_rows > 0) {
                 }
                 ?>
                 <div class="flex justify-between mb-2">
-                    <span>Itens (<?= array_sum($_SESSION['carrinho'] ?? []) ?>)</span>
+                    <span>Itens (<?= array_sum($_SESSION['carrinho']) ?>)</span>
                     <span>R$ <?= number_format($total, 2, ',', '.') ?></span>
                 </div>
                 <hr class="my-2">
@@ -136,5 +136,4 @@ if ($result->num_rows > 0) {
     </div>
 </body>
 <?php include('footer.php'); ?>
-
 </html>

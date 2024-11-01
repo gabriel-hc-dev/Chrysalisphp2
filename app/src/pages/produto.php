@@ -60,7 +60,9 @@
             $_SESSION['carrinho'][] = $produto;
         }
 
-        echo "Produto adicionado ao carrinho com sucesso!";
+        echo "<script>
+                alert('Produto adicionado ao carrinho com sucesso!');
+            </script>";
     }
 
     if (isset($_GET['id'])) {
@@ -174,11 +176,11 @@
                 }
                 ?>
                 <div class="md:w-1/2 mt-6">
-                    <h1 class="text-3xl font-bold"><?php echo "$descricao $grupo $subgrupo $genero"; ?></h1>
+                    <h1 class="text-3xl font-bold"><?php echo " $grupo $subgrupo $descricao $genero"; ?></h1>
                     <p class="text-4xl font-bold mt-4">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
                     <form method="POST" action="produto.php?id=<?php echo $idProduto; ?>">
                         <input type="hidden" name="idProduto" value="<?php echo $idProduto; ?>">
-                        <button type="submit" name="adicionar_carrinho"
+                        <button onclick="window.location.replace('carrinho.php');"  name="adicionar_carrinho"
                             class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300 mt-6">
                             Adicionar ao Carrinho
                         </button>
@@ -208,7 +210,7 @@
                         Enviar Avaliação
                     </button>
                 </form>
-            </section>
+            </section> 
 
             <section class="mt-12">
                 <h2 class="text-2xl font-bold text-center">Comentários</h2>
