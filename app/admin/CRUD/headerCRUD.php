@@ -4,11 +4,11 @@
         <div class="max-w-screen-xl grid grid-cols-1 lg:grid-cols-2 items-center mx-auto p-4 gap-4 bg-orange-400">
             <!-- Logo Section -->
             <div class="flex items-center space-x-3 rtl:space-x-reverse lg:col-span-1">
-                <a href="../../src/pages/index.php" class="flex items-center space-x-3 rtl:space-x-reverse transition-all">
+                <a href="../../src/pages/admin_page.php" class="flex items-center space-x-3 rtl:space-x-reverse transition-all">
                     <img id="butterfly_img" src="../../public/assets/images/White_Butterfly.png" class="h-8"
                         alt="Chrysalis Logo Borboleta" />
                 </a>
-                <a href="../../src/pages/index.php" class="flex items-center space-x-3 rtl:space-x-reverse transition-all hover:scale-105">
+                <a href="../../src/pages/admin_page.php" class="flex items-center space-x-3 rtl:space-x-reverse transition-all hover:scale-105">
                     <img src="../../public/assets/images/White_Chrysalis.png" class="h-8" alt="Chrysalis Logo Texto" />
                 </a>
             </div>

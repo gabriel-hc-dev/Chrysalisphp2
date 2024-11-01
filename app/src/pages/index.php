@@ -13,21 +13,6 @@
 
 <body>
     <?php
-    session_start(); // Inicia a sessão
-    include('../backend/conexao.php');
-
-    // Verifica se o usuário está logado
-    if (!isset($_SESSION['usuario_email'])) {
-        header('Location: login.php'); // Redireciona para a página de login se não estiver logado
-        exit();
-    }
-
-    // Se for um admin, redireciona para indexAdmin.php
-    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-        header('Location: ../../admin/indexAdmin.php'); // Redireciona para a página index de admin
-        exit();
-    }
-
     include('header.php'); // Inclui o cabeçalho para usuários comuns
     ?>
     <main>

@@ -14,12 +14,15 @@
 
 <body>
     <?php
-    include("headerCRUD.php");
     session_start();
-
+    include("headerCRUD.php");
+    
+    // Verificação se o usuário é administrador
     if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-        // Se o usuário não estiver logado ou não for o administrador
-        header('Location: ../../src/pages/index.php'); // Redireciona para a página index 
+        // Se o usuário não estiver logado ou não for o administrador, redireciona para a página inicial
+        echo "<script>
+                window.location.replace('../../src/pages/index.php');
+              </script>";
         exit();
     }
     ?>
@@ -92,7 +95,6 @@
                                 fileName.textContent = input.files.length > 0 ? input.files[0].name : 'Nenhum arquivo selecionado';
                             }
                         </script>
-
 
                     </div>
                     <button
