@@ -14,7 +14,16 @@
 
 <body>
     <?php
-    include("../headerAdmin.php");
+    session_start();
+    include("headerCRUD.php");
+
+    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+        // Se o usuário não estiver logado ou não for o administrador, redireciona para a página inicial
+        echo "<script>
+                window.location.replace('../../src/pages/index.php');
+              </script>";
+        exit();
+    }
     ?>
     <main>
         <div class="container m-auto sm:px-12">

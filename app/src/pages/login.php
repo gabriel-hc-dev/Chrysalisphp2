@@ -17,24 +17,31 @@
 
     // Verifica se o formulário foi enviado
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = $conexao->real_escape_string($_POST['email']);
+        $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Consulta para obter o usuário com o e-mail fornecido
-        $query = "SELECT * FROM Usuario WHERE loginUsuario = '$email'";
-        $result = $conexao->query($query);
+        // Consulta para obter o usuário com o e-mail fornecido (usando prepared statements)
+        $stmt = $conexao->prepare("SELECT * FROM Usuario WHERE loginUsuario = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $usuario = $result->fetch_assoc();
 
             // Verifica se a senha fornecida corresponde à senha armazenada
             if (password_verify($password, $usuario['senha'])) {
-                // Autenticação bem-sucedida, armazena o ID do usuário na sessão
-                $_SESSION['usuario_id'] = $usuario['idPessoa']; 
-                $_SESSION['usuario_email'] = $usuario['loginUsuario']; // Salvar o e-mail, se necessário
+                // Autenticação bem-sucedida, armazena o ID do usuário e informações na sessão
+                $_SESSION['usuario_id'] = $usuario['idPessoa'];
+                $_SESSION['usuario_email'] = $usuario['loginUsuario'];
+                $_SESSION['is_admin'] = ($usuario['loginUsuario'] === 'administradorchrysalis@gmail.com');
 
-                // Redireciona para a página inicial ou outra página após login
-                header("Location: index.php");
+                // Redireciona para a página adequada com base no papel do usuário
+                if ($_SESSION['is_admin']) {
+                    header("Location: admin_page.php"); // Página de administração para admin
+                } else {
+                    header("Location: index.php"); // Página inicial para usuários comuns
+                }
                 exit();
             } else {
                 $erro = "E-mail ou senha incorretos.";
@@ -44,7 +51,6 @@
         }
     }
     ?>
-
 
     <?php include('header.php'); ?>
 
@@ -60,7 +66,7 @@
 
                         <?php if (isset($erro)): ?>
                             <div class="mb-4 text-red-500">
-                                <?php echo $erro; ?>
+                                <?php echo htmlspecialchars($erro); ?>
                             </div>
                         <?php endif; ?>
 
@@ -73,8 +79,7 @@
                             </div>
                             <div>
                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
-                                <input type="password" name="password" id="password"
-                                    placeholder="••••••••"
+                                <input type="password" name="password" id="password" placeholder="••••••••"
                                     class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1"
                                     required>
                             </div>
@@ -86,8 +91,7 @@
             </div>
         </section>
     </main>
-    <?php include("footer.php");
-    ?>
+    <?php include("footer.php"); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 

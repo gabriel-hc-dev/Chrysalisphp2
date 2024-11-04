@@ -13,7 +13,16 @@
 
 <body class="bg-gray-100">
     <?php
-    include("../headerAdmin.php");
+    session_start();
+    include("headerCRUD.php");
+
+    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+        // Se o usuário não estiver logado ou não for o administrador, redireciona para a página inicial
+        echo "<script>
+                window.location.replace('../../src/pages/index.php');
+              </script>";
+        exit();
+    }
     ?>
 
     <div class="p-8">
@@ -76,9 +85,9 @@
                         echo '<img src="data:image/jpeg;base64,' . base64_encode($row['imagem']) . '" alt="Imagem do produto" class="w-32 h-32 object-cover rounded-md">';
                         echo <<<HTML
                             </td>
-                            <td class='px-6 py-4 flex flex-nowrap justify-center'>
+                            <td class='px-6 py-14 flex flex-nowrap justify-center space-x-4'>
                                 <a href='update.php?idProduto={$row['idProduto']}' class='transition-all bg-blue-500 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-blue-600 duration-300'>Editar</a>
-                                <a href='delete.php?idProduto={$row['idProduto']}' class='transition-all bg-red-500 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-red-700 duration-300 ml-4'>Deletar</a>
+                                <a href='delete.php?idProduto={$row['idProduto']}' class='transition-all bg-red-500 text-white ease-in-out py-2 px-4 rounded hover:shadow-md hover:bg-red-700 duration-300'>Deletar</a>
                             </td>
                         </tr>
                     HTML;

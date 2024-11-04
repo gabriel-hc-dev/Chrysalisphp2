@@ -12,6 +12,7 @@
 
 <body class="bg-white text-gray-900">
     <?php
+    session_start();
     include("header.php");
     include("../backend/conexao.php");
 
@@ -21,12 +22,12 @@
     }
 
     // Lógica para adicionar produto ao carrinho
-    $produtoExiste = false; // Inicializa a variável aqui
+    $produtoExiste = false;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['adicionar_carrinho'])) {
         $idProduto = $_POST['idProduto'];
 
-        // Obtenha o produto do banco de dados para definir as variáveis $descricao e $valorProduto
+        // Obtenha o produto do banco de dados
         $sql = "SELECT descricao, valorProduto FROM Produto WHERE idProduto = ?";
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("i", $idProduto);
@@ -35,7 +36,6 @@
         $stmt->fetch();
         $stmt->close();
 
-        // Se o produto não for encontrado, trate isso aqui
         if (!$descricao || !$valorProduto) {
             echo "Produto não encontrado.";
             exit;
@@ -48,33 +48,30 @@
             'quantidade' => 1
         ];
 
-        // Verifica se o produto já está no carrinho
         foreach ($_SESSION['carrinho'] as &$item) {
             if ($item['id'] == $idProduto) {
-                $item['quantidade']++; // Incrementa a quantidade se já existir
+                $item['quantidade']++;
                 $produtoExiste = true;
                 break;
             }
         }
 
-        // Se o produto não existe no carrinho, adiciona-o
         if (!$produtoExiste) {
             $_SESSION['carrinho'][] = $produto;
         }
 
-        echo "Produto adicionado ao carrinho com sucesso!";
+        echo "<script>
+                alert('Produto adicionado ao carrinho com sucesso!');
+            </script>";
     }
-
-    // Se o produto não existir, adiciona ao carrinho
-    // (Removido a lógica duplicada)
 
     if (isset($_GET['id'])) {
         $idProduto = $_GET['id'];
 
         // Consulta SQL para buscar os detalhes do produto
         $sql = "SELECT idProduto, valorProduto, descricao, grupo, subGrupo, genero, imagem 
-            FROM Produto 
-            WHERE idProduto = ?";
+                FROM Produto 
+                WHERE idProduto = ?";
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("i", $idProduto);
         $stmt->execute();
@@ -82,7 +79,25 @@
         $stmt->fetch();
         $stmt->close();
 
-        // Consulta para buscar os comentários e unir com a tabela Usuario
+        // Processar o envio de um novo comentário
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
+            $nota = $_POST['avaliacao'];
+            $comentario = $_POST['comentario'];
+            $idUsuario = $_SESSION['usuario_id']; // ID do usuário logado
+    
+            // Inserir o feedback no banco de dados
+            $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
+            $stmtInsert = $conexao->prepare($sqlInsert);
+            if ($stmtInsert) {
+                $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
+                $stmtInsert->execute();
+                $stmtInsert->close();
+            } else {
+                echo "Erro ao preparar a declaração: " . $conexao->error;
+            }
+        }
+
+        // Consulta para buscar os comentários
         $sqlComentarios = "SELECT U.loginUsuario, F.nota, F.descricaoFeedback FROM Feedback F JOIN Usuario U ON F.idUsuario = U.idUsuario WHERE F.idProduto = ?";
         $stmt = $conexao->prepare($sqlComentarios);
         $stmt->bind_param("i", $idProduto);
@@ -94,22 +109,21 @@
     }
 
     // Lógica para adicionar feedback
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
         $nota = $_POST['avaliacao'];
         $comentario = $_POST['comentario'];
-        $idUsuario = 1; // Aqui você deve capturar o ID do usuário logado
-
+        $idUsuario = $_SESSION['usuario_id']; // Aqui você deve capturar o ID do usuário logado
+    
         // Insere o feedback no banco de dados
         $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
         $stmtInsert = $conexao->prepare($sqlInsert);
 
-        // Verifica se a preparação foi bem-sucedida
         if ($stmtInsert) {
             $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
-            $stmtInsert->execute(); // Executa a inserção
-            $stmtInsert->close(); // Fecha a declaração
+            $stmtInsert->execute();
+            $stmtInsert->close();
         } else {
-            echo "Erro ao preparar a declaração: " . $conexao->error; // Tratamento de erro
+            echo "Erro ao preparar a declaração: " . $conexao->error;
         }
     }
 
@@ -117,7 +131,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_feedback'])) {
         $idFeedback = $_POST['idFeedback'];
         $idUsuario = 1; // Capturar o ID do usuário logado aqui
-
+    
         // Verifica se o feedback pertence ao usuário logado
         $sqlVerifica = "SELECT idUsuario FROM Feedback WHERE idFeedback = ?";
         $stmtVerifica = $conexao->prepare($sqlVerifica);
@@ -127,7 +141,6 @@
         $stmtVerifica->fetch();
         $stmtVerifica->close();
 
-        // Se o usuário logado for o autor do feedback, realiza a exclusão
         if ($idFeedbackUsuario === $idUsuario) {
             $sqlDelete = "DELETE FROM Feedback WHERE idFeedback = ?";
             $stmtDelete = $conexao->prepare($sqlDelete);
@@ -163,141 +176,102 @@
                 }
                 ?>
                 <div class="md:w-1/2 mt-6">
-                    <h1 class="text-3xl font-bold"><?php echo "$descricao $grupo $subgrupo $genero"; ?></h1>
+                    <h1 class="text-3xl font-bold"><?php echo " $grupo $subgrupo $descricao $genero"; ?></h1>
                     <p class="text-4xl font-bold mt-4">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
                     <form method="POST" action="produto.php?id=<?php echo $idProduto; ?>">
                         <input type="hidden" name="idProduto" value="<?php echo $idProduto; ?>">
-                        <button type="submit" name="adicionar_carrinho" class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300 mt-6">
+                        <button onclick="window.location.replace('carrinho.php');"  name="adicionar_carrinho"
+                            class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300 mt-6">
                             Adicionar ao Carrinho
                         </button>
                     </form>
                 </div>
             </div>
 
-            <div class="mt-12">
+            <section>
+                <!-- Formulário para adicionar avaliação -->
                 <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2>
                 <form method="POST" class="flex flex-col items-center space-y-4 mt-4">
                     <input type="hidden" name="avaliacao" id="avaliacao" value="0">
-                    <!-- Atualização no código das estrelas -->
                     <div class="flex space-x-2">
                         <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <svg class="estrela w-10 h-10 cursor-pointer text-gray-400" data-valor="<?php echo $i; ?>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                            <svg class="estrela w-10 h-10 cursor-pointer text-gray-400" data-valor="<?php echo $i; ?>"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
                         <?php endfor; ?>
                     </div>
 
-                    <textarea class="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg focus:border-orange-500" name="comentario" placeholder="Adicione um comentário (opcional)"></textarea>
-                    <button type="submit" class="py-2 px-6 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300">Enviar Avaliação</button>
+                    <textarea class="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg focus:border-orange-500"
+                        name="comentario" placeholder="Adicione um comentário (opcional)"></textarea>
+                    <button type="submit"
+                        class="py-2 px-6 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300">
+                        Enviar Avaliação
+                    </button>
                 </form>
-            </div>
+            </section> 
 
-            <div class="mt-12">
+            <section class="mt-12">
                 <h2 class="text-2xl font-bold text-center">Comentários</h2>
 
-                <!-- Botões de filtro -->
                 <div class="flex justify-center space-x-2 mt-4">
-                    <button onclick="filtrarComentarios(0)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">Todas</button>
-                    <button onclick="filtrarComentarios(5)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">5 Estrelas</button>
-                    <button onclick="filtrarComentarios(4)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">4 Estrelas</button>
-                    <button onclick="filtrarComentarios(3)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">3 Estrelas</button>
-                    <button onclick="filtrarComentarios(2)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">2 Estrelas</button>
-                    <button onclick="filtrarComentarios(1)" class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">1 Estrela</button>
+                    <button onclick="filtrarComentarios(0)"
+                        class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">Todas as notas</button>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <button onclick="filtrarComentarios(<?php echo $i; ?>)"
+                            class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300"><?php echo $i; ?>
+                            Estrela<?php echo $i > 1 ? 's' : ''; ?></button>
+                    <?php endfor; ?>
                 </div>
 
-                <div id="comentarios" class="mt-6">
-                    <div id="mensagem" class="hidden mt-4 p-4 text-orange-700 bg-orange-100 rounded-lg" role="alert">
-                        Nenhum comentário encontrado com a nota equivalente a <span id="nota-mensagem"></span> estrela(s).
-                    </div>
-
-                    <?php while ($comentario = $comentarios->fetch_assoc()) { ?>
-                        <div class="comentario p-4 border-b border-gray-300" data-estrelas="<?php echo $comentario['nota']; ?>">
-                            <div class="flex justify-between">
-                                <div>
-                                    <h3 class="font-bold"><?php echo $comentario['loginUsuario']; ?></h3>
-                                </div>
-                                <div class="flex">
-                                    <?php for ($i = 1; $i <= 5; $i++) { ?>
-                                        <svg class="w-4 h-4 <?php echo $i <= $comentario['nota'] ? 'text-yellow-300' : 'text-gray-300'; ?>" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.848l-5.051.734a1.523 1.523 0 0 0-.841 2.601l3.646 3.604-.861 5.049a1.524 1.524 0 0 0 2.212 1.605l4.507-2.366 4.508 2.366a1.524 1.524 0 0 0 2.212-1.605l-.861-5.049 3.646-3.604a1.523 1.523 0 0 0 .313-1.567z" />
-                                        </svg>
-                                    <?php } ?>
-                                </div>
+                <div id="comentarios" class="mt-8">
+                    <?php while ($comentario = $comentarios->fetch_assoc()): ?>
+                        <div class="p-4 border border-gray-300 rounded-lg mb-4">
+                            <p class="font-bold"><?php echo $comentario['loginUsuario']; ?></p>
+                            <div class="flex mb-2">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <svg class="w-6 h-6 text-<?php echo $i < $comentario['nota'] ? 'orange-500' : 'gray-400'; ?>"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                    </svg>
+                                <?php endfor; ?>
                             </div>
-                            <p class="mt-2"><?php echo $comentario['descricaoFeedback']; ?></p>
-                            <?php if (isset($_SESSION['usuario_logado']) && $comentario['loginUsuario'] === $_SESSION['usuario_logado']): ?>
-                                <form method="POST" action="produto.php?id=<?php echo $idProduto; ?>" class="mt-2">
-                                    <input type="hidden" name="idFeedback" value="<?php echo $comentario['idFeedback']; ?>">
-                                    <button type="submit" name="deletar_feedback" class="py-1 px-2 bg-red-500 text-white rounded hover:bg-red-600">Excluir</button>
-                                </form>
-                            <?php endif; ?>
-
+                            <p><?php echo $comentario['descricaoFeedback']; ?></p>
                         </div>
-                    <?php } ?>
-
+                    <?php endwhile; ?>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <script>
-        // Configurações das estrelas
-        const estrelas = document.querySelectorAll('.estrela');
-        let notaSelecionada = 0;
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-        // Evento para o mouse sobre as estrelas
-        estrelas.forEach(estrela => {
-            estrela.addEventListener('mouseover', () => {
-                const valor = parseInt(estrela.getAttribute('data-valor'));
-                atualizarEstrelas(valor);
-            });
+            <script>
+                const estrelas = document.querySelectorAll('.estrela');
+                const inputAvaliacao = document.getElementById('avaliacao');
 
-            estrela.addEventListener('mouseout', () => {
-                atualizarEstrelas(notaSelecionada);
-            });
+                estrelas.forEach((estrela, index) => {
+                    estrela.addEventListener('click', () => {
+                        const valor = parseInt(estrela.dataset.valor);
+                        inputAvaliacao.value = valor;
 
-            estrela.addEventListener('click', () => {
-                notaSelecionada = parseInt(estrela.getAttribute('data-valor'));
-                document.getElementById('avaliacao').value = notaSelecionada;
-                atualizarEstrelas(notaSelecionada);
-            });
-        });
+                        estrelas.forEach((e, i) => {
+                            e.classList.toggle('text-orange-500', i < valor);
+                            e.classList.toggle('text-gray-400', i >= valor);
+                        });
+                    });
+                });
 
-        function atualizarEstrelas(valor) {
-            estrelas.forEach(estrela => {
-                const valorEstrela = parseInt(estrela.getAttribute('data-valor'));
-                estrela.classList.toggle('text-yellow-300', valorEstrela <= valor);
-                estrela.classList.toggle('text-gray-400', valorEstrela > valor);
-            });
-        }
+                function filtrarComentarios(nota) {
+                    const comentarios = document.querySelectorAll('#comentarios > div');
 
-        // Função para filtrar comentários
-        function filtrarComentarios(nota) {
-            const comentarios = document.querySelectorAll('.comentario');
-            const mensagem = document.getElementById('mensagem');
-            const notaMensagem = document.getElementById('nota-mensagem');
-            let nenhumComentarioEncontrado = true; // Variável para rastrear se nenhum comentário foi encontrado
-
-            comentarios.forEach(comentario => {
-                const notaComentario = parseInt(comentario.getAttribute('data-estrelas'));
-                if (nota === 0 || notaComentario === nota) {
-                    comentario.style.display = 'block';
-                    nenhumComentarioEncontrado = false; // Comentário encontrado, altera o valor da variável
-                } else {
-                    comentario.style.display = 'none';
+                    comentarios.forEach((comentario) => {
+                        const estrelas = comentario.querySelectorAll('svg.text-orange-500').length;
+                        comentario.style.display = (nota === 0 || estrelas === nota) ? 'block' : 'none';
+                    });
                 }
-            });
 
-            // Atualiza a mensagem se nenhum comentário foi encontrado
-            if (nenhumComentarioEncontrado) {
-                notaMensagem.textContent = nota; // Atualiza a nota na mensagem
-                mensagem.classList.remove('hidden'); // Mostra a mensagem
-            } else {
-                mensagem.classList.add('hidden'); // Esconde a mensagem se comentários foram encontrados
-            }
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Script do Flowbite -->
+            </script>
 </body>
 
 </html>

@@ -94,8 +94,7 @@ while ($user_data = mysqli_fetch_assoc($result)) {
             <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-800 ms-3">' . number_format($mediaAvaliacoes, 1) . '</span>
         </div>
         <div class="flex items-center justify-between">           
-            <span class="text-3xl font-bold text-gray-900">R$' . $user_data['valorProduto'] . '</span>
-            <a href="adicionar_carrinho.php?idProduto=' . $user_data['idProduto'] . '" 
+            <span class="text-3xl font-bold text-gray-900">R$' . number_format($user_data['valorProduto'], 2, ',', '.') . '</span>            <a href="adicionar_carrinho.php?idProduto=' . $user_data['idProduto'] . '" 
                 class="text-white bg-orange-700 transition-colors hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 <img src="../../public/assets/images/icons/cart.svg" alt="Carrinho" style="filter: invert(100%)">
             </a>

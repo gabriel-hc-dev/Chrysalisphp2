@@ -14,7 +14,17 @@
 
 <body>
     <?php
-    include("../headerAdmin.php");
+    session_start();
+    include("headerCRUD.php");
+    
+    // Verificação se o usuário é administrador
+    if (!isset($_SESSION['usuario_email']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
+        // Se o usuário não estiver logado ou não for o administrador, redireciona para a página inicial
+        echo "<script>
+                window.location.replace('../../src/pages/index.php');
+              </script>";
+        exit();
+    }
     ?>
     <main>
         <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold"
@@ -52,7 +62,9 @@
                         </div>
                         <div class="mb-6">
                             <label for="genero">Gênero</label>
-                            <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white" required>
+                            <select id="genero" name="genero"
+                                class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white"
+                                required>
                                 <option value="U">Unissex</option>
                                 <option value="M">Masculino</option>
                                 <option value="F">Feminino</option>
@@ -61,8 +73,8 @@
                         <!-- Imagem -->
                         <div class="mb-6">
                             <!-- Input de imagem escondido -->
-                            <input type="file" name="imagem" id="imagem" accept="image/*"
-                                class="hidden" onchange="mostrarNomeArquivo()">
+                            <input type="file" name="imagem" id="imagem" accept="image/*" class="hidden"
+                                onchange="mostrarNomeArquivo()">
 
                             <!-- Label estilizada que funciona como botão -->
                             <label for="imagem"
@@ -84,9 +96,10 @@
                             }
                         </script>
 
-
                     </div>
-                    <button class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white hover:text-white bg-orange-400 hover:bg-orange-500 rounded-lg text-center hover:scale-105">Cadastrar produto</button>
+                    <button
+                        class="transition ease-in-out duration-300 px-8 py-2 mb-6 text-md font-medium text-white hover:text-white bg-orange-400 hover:bg-orange-500 rounded-lg text-center hover:scale-105">Cadastrar
+                        produto</button>
                 </form>
             </div>
         </div>
@@ -115,7 +128,7 @@
 
         if ($stmt) {
             $null = null; // Placeholder para a imagem binária
-
+    
             // Ajustando o bind_param com os tipos corretos, incluindo "b" para binário
             $stmt->bind_param("sssssb", $preco, $nome, $grupo, $subgrupo, $genero, $null);
 
@@ -125,7 +138,9 @@
             }
 
             if ($stmt->execute()) {
-                echo "<script>alert('Produto cadastrado com sucesso!');</script>";
+                echo "<script>alert('Produto cadastrado com sucesso!');
+                        window.location.replace('read.php');
+                      </script>";
             } else {
                 die("Erro ao executar a query: " . $stmt->error);
             }

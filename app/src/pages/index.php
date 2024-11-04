@@ -9,13 +9,11 @@
     <link rel="stylesheet" href="../styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
-
 </head>
 
 <body>
     <?php
-    include('../backend/conexao.php');
-    include('header.php');
+    include('header.php'); // Inclui o cabeçalho para usuários comuns
     ?>
     <main>
         <div id="alerts" class="text-white mx-auto text-center py-4 w-vw" style="background-color: rgb(24, 24, 24);">
@@ -34,7 +32,6 @@
                 <?php
                 include('card.php');
                 ?>
-
             </section>
         </section>
     </main>
