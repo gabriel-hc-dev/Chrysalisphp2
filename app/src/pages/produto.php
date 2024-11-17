@@ -60,7 +60,9 @@
             $_SESSION['carrinho'][] = $produto;
         }
 
-        echo "Produto adicionado ao carrinho com sucesso!";
+        echo "<script>
+                alert('Produto adicionado ao carrinho com sucesso!');
+            </script>";
     }
 
     if (isset($_GET['id'])) {
@@ -77,12 +79,12 @@
         $stmt->fetch();
         $stmt->close();
 
-        // Processar o envio de um novo comentário
+        // Lógica para processar o envio de um novo comentário
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
             $nota = $_POST['avaliacao'];
             $comentario = $_POST['comentario'];
             $idUsuario = $_SESSION['usuario_id']; // ID do usuário logado
-    
+        
             // Inserir o feedback no banco de dados
             $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
             $stmtInsert = $conexao->prepare($sqlInsert);
@@ -90,6 +92,13 @@
                 $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
                 $stmtInsert->execute();
                 $stmtInsert->close();
+        
+                // Redirecionar para evitar reenvio do formulário
+                echo '
+                <script>
+                    window.location.replace("produto.php?id=' . $idProduto . '");
+                </script>';
+                exit;
             } else {
                 echo "Erro ao preparar a declaração: " . $conexao->error;
             }
@@ -106,29 +115,10 @@
         exit;
     }
 
-    // Lógica para adicionar feedback
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
-        $nota = $_POST['avaliacao'];
-        $comentario = $_POST['comentario'];
-        $idUsuario = $_SESSION['usuario_id']; // Aqui você deve capturar o ID do usuário logado
-    
-        // Insere o feedback no banco de dados
-        $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
-        $stmtInsert = $conexao->prepare($sqlInsert);
-
-        if ($stmtInsert) {
-            $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
-            $stmtInsert->execute();
-            $stmtInsert->close();
-        } else {
-            echo "Erro ao preparar a declaração: " . $conexao->error;
-        }
-    }
-
     // Lógica para deletar feedback
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_feedback'])) {
         $idFeedback = $_POST['idFeedback'];
-        $idUsuario = 1; // Capturar o ID do usuário logado aqui
+        $idUsuario = $_SESSION['usuario_id']; // Capturar o ID do usuário logado aqui
     
         // Verifica se o feedback pertence ao usuário logado
         $sqlVerifica = "SELECT idUsuario FROM Feedback WHERE idFeedback = ?";
@@ -174,11 +164,11 @@
                 }
                 ?>
                 <div class="md:w-1/2 mt-6">
-                    <h1 class="text-3xl font-bold"><?php echo "$descricao $grupo $subgrupo $genero"; ?></h1>
+                    <h1 class="text-3xl font-bold"><?php echo " $grupo $subgrupo $descricao $genero"; ?></h1>
                     <p class="text-4xl font-bold mt-4">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
                     <form method="POST" action="produto.php?id=<?php echo $idProduto; ?>">
                         <input type="hidden" name="idProduto" value="<?php echo $idProduto; ?>">
-                        <button type="submit" name="adicionar_carrinho"
+                        <button onclick="window.location.replace('carrinho.php');"  name="adicionar_carrinho"
                             class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300 mt-6">
                             Adicionar ao Carrinho
                         </button>
@@ -208,7 +198,7 @@
                         Enviar Avaliação
                     </button>
                 </form>
-            </section>
+            </section> 
 
             <section class="mt-12">
                 <h2 class="text-2xl font-bold text-center">Comentários</h2>

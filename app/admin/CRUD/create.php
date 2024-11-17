@@ -78,7 +78,7 @@
 
                             <!-- Label estilizada que funciona como botão -->
                             <label for="imagem"
-                                class="cursor-pointer border border-gray-300 bg-transparent text-gray-800 hover:text-white hover:bg-orange-500 py-2 px-4 rounded-lg transition-all">
+                                class="cursor-pointer border border-gray-300 bg-transparent text-gray-800 hover:text-white hover:bg-orange-500 py-2 px-8 rounded-lg transition-all">
                                 Adicionar Imagem
                             </label>
 
