@@ -79,12 +79,12 @@
         $stmt->fetch();
         $stmt->close();
 
-        // Processar o envio de um novo comentário
+        // Lógica para processar o envio de um novo comentário
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
             $nota = $_POST['avaliacao'];
             $comentario = $_POST['comentario'];
             $idUsuario = $_SESSION['usuario_id']; // ID do usuário logado
-    
+        
             // Inserir o feedback no banco de dados
             $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
             $stmtInsert = $conexao->prepare($sqlInsert);
@@ -92,6 +92,13 @@
                 $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
                 $stmtInsert->execute();
                 $stmtInsert->close();
+        
+                // Redirecionar para evitar reenvio do formulário
+                echo '
+                <script>
+                    window.location.replace("produto.php?id=' . $idProduto . '");
+                </script>';
+                exit;
             } else {
                 echo "Erro ao preparar a declaração: " . $conexao->error;
             }
@@ -108,29 +115,10 @@
         exit;
     }
 
-    // Lógica para adicionar feedback
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['avaliacao'], $_POST['comentario'], $_SESSION['usuario_id'])) {
-        $nota = $_POST['avaliacao'];
-        $comentario = $_POST['comentario'];
-        $idUsuario = $_SESSION['usuario_id']; // Aqui você deve capturar o ID do usuário logado
-    
-        // Insere o feedback no banco de dados
-        $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
-        $stmtInsert = $conexao->prepare($sqlInsert);
-
-        if ($stmtInsert) {
-            $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
-            $stmtInsert->execute();
-            $stmtInsert->close();
-        } else {
-            echo "Erro ao preparar a declaração: " . $conexao->error;
-        }
-    }
-
     // Lógica para deletar feedback
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletar_feedback'])) {
         $idFeedback = $_POST['idFeedback'];
-        $idUsuario = 1; // Capturar o ID do usuário logado aqui
+        $idUsuario = $_SESSION['usuario_id']; // Capturar o ID do usuário logado aqui
     
         // Verifica se o feedback pertence ao usuário logado
         $sqlVerifica = "SELECT idUsuario FROM Feedback WHERE idFeedback = ?";

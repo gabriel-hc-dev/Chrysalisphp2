@@ -18,8 +18,8 @@ function renderStar($filled) {
         return '<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20">
                     <defs>
                         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="50%" style="stop-color:#FACA15;stop-opacity:1" /> <!-- Amarelo da meia estrela -->
-                            <stop offset="50%" style="stop-color:#D1D5DB;stop-opacity:1" /> <!-- Cinza da meia estrela -->
+                            <stop offset="50%" style="stop-color:#FACA15;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#D1D5DB;stop-opacity:1" />
                         </linearGradient>
                     </defs>
                     <path fill="url(#grad1)" d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
@@ -64,38 +64,39 @@ while ($user_data = mysqli_fetch_assoc($result)) {
     // Calcular número de estrelas cheias, médias e vazias
     $fullStars = floor($mediaAvaliacoes);
     $halfStar = ($mediaAvaliacoes - $fullStars >= 0.5) ? 0.5 : 0;
-    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Total de 5 estrelas
+    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
 
     // Gerar HTML das estrelas
     $starsHTML = '';
     for ($i = 0; $i < $fullStars; $i++) {
-        $starsHTML .= renderStar(1); // Estrela cheia
+        $starsHTML .= renderStar(1);
     }
     if ($halfStar) {
-        $starsHTML .= renderStar(0.5); // Estrela meia
+        $starsHTML .= renderStar(0.5);
     }
     for ($i = 0; $i < $emptyStars; $i++) {
-        $starsHTML .= renderStar(0); // Estrela vazia
+        $starsHTML .= renderStar(0);
     }
 
     echo ('<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
     <a href="produto.php?id=' . $user_data['idProduto'] . '">
-        <img class="p-8 rounded-t-lg" src="exibir_imagem.php?id=' . $user_data['idProduto'] . '" alt="Imagem do Produto" style="max-height:500px"/>
+        <img class="w-full h-80 object-cover object-center rounded-t-lg" src="exibir_imagem.php?id=' . $user_data['idProduto'] . '" alt="Imagem do Produto">
     </a>
     <div class="px-5 pb-5">
         <a href="produto.php?id=' . $user_data['idProduto'] . '">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">' . $user_data['grupo'] . ' ' . $user_data['subGrupo'] . ' ' . $user_data['descricao'] . ' ' . $genero . '</h5>
+            <h5 class="text-xl font-semibold tracking-tight mt-6 mt-text-gray-900">' . $user_data['grupo'] . ' ' . $user_data['subGrupo'] . ' ' . $user_data['descricao'] . ' ' . $genero . '</h5>
         </a>
         <div class="flex items-center mt-2.5 mb-5">
             <div class="flex items-center space-x-1 rtl:space-x-reverse">
                 ' . $starsHTML . '
             </div>
             <span class="text-xs font-semibold px-2.5 py-1 rounded">' . ($numAvaliacoes > 0 ? '(' . $numAvaliacoes . ')' : '(0)') . '</span>
-            <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-orange-200 dark:text-orange-800 ms-3">' . number_format($mediaAvaliacoes, 1) . '</span>
+            <span class="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded">' . number_format($mediaAvaliacoes, 1) . '</span>
         </div>
         <div class="flex items-center justify-between">           
-            <span class="text-3xl font-bold text-gray-900">R$' . number_format($user_data['valorProduto'], 2, ',', '.') . '</span>            <a href="adicionar_carrinho.php?idProduto=' . $user_data['idProduto'] . '" 
-                class="text-white bg-orange-700 transition-colors hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            <span class="text-3xl font-bold text-gray-900">R$' . number_format($user_data['valorProduto'], 2, ',', '.') . '</span>
+            <a href="adicionar_carrinho.php?idProduto=' . $user_data['idProduto'] . '" 
+                class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                 <img src="../../public/assets/images/icons/cart.svg" alt="Carrinho" style="filter: invert(100%)">
             </a>
         </div>
