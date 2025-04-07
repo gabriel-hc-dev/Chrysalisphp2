@@ -9,7 +9,26 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
+    <style>
+        body::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
 
+        body::-webkit-scrollbar-track {
+            background-color: rgb(249 250 251);
+            /* color of the tracking area */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: rgba(203, 213, 225, 0.8);
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid rgb(249 250 251);
+            /* creates padding around scroll thumb */
+        }
+    </style>
 </head>
 
 <body>
@@ -26,6 +45,10 @@
     }
     ?>
     <main>
+        <div id="alerts" class="text-white mx-auto text-center py-3 font-semibold"
+            style="background-color: rgb(51, 44, 36);">
+            <span class="mx-4 font-normal">PÁGINA PARA ADMINISTRADORES</span>
+        </div>
         <div class="container m-auto sm:px-12">
             <h1 class="text-2xl font-semibold my-8">Editar Produtos</h1>
 
@@ -44,7 +67,7 @@
 
                     if ($result->num_rows == 1) {
                         $row = $result->fetch_assoc();
-            ?>
+                        ?>
                         <form action="update.php?idProduto=<?php echo $idProduto; ?>" method="post" enctype="multipart/form-data">
                             <div class="mb-4">
                                 <div class="mb-6">
@@ -73,7 +96,9 @@
                                 </div>
                                 <div class="mb-6">
                                     <label for="genero">Gênero</label>
-                                    <select id="genero" name="genero" class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-2 py-1.5 hover:bg-white" required>
+                                    <select id="genero" name="genero"
+                                        class="border transition-all focus:scale-105 border-gray-300 text-gray-900 text-md rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-2 py-1.5 hover:bg-white"
+                                        required>
                                         <option value="U">Unissex</option>
                                         <option value="M">Masculino(a)</option>
                                         <option value="F">Feminino(a)</option>
@@ -84,24 +109,26 @@
                                     <div class="border rounded-lg py-2 px-6 mx-auto flex justify-content flex-nowrap items-center">
                                         <label for="imagem" class="text-center">Imagem Atual</label><!-- Exibe a imagem atual -->
                                         <div class="rounded-lg">
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagem']); ?>" alt="Imagem do produto" class="w-32 h-32 object-cover rounded-lg ml-6">
+                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($row['imagem']); ?>"
+                                                alt="Imagem do produto" class="w-32 h-32 object-cover rounded-lg ml-6">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                        <input type="file" name="imagem" class="hidden" id="imagem" accept="image/*"
-                                            onchange="mostrarNomeArquivo()">
-                                        <label for="imagem"
-                                            class="cursor-pointer border transition-colors border-gray-300 inline-block bg-transparent text-gray-800 hover:text-white hover:bg-orange-500 py-2 px-4 rounded-lg transition-all">
-                                            Editar Imagem
-                                        </label>
-                                        <span id="file-name" class="ml-4 text-gray-700">Nenhum arquivo selecionado</span>
-                                    </div>
+                                    <input type="file" name="imagem" class="hidden" id="imagem" accept="image/*"
+                                        onchange="mostrarNomeArquivo()">
+                                    <label for="imagem"
+                                        class="cursor-pointer border transition-colors border-gray-300 inline-block bg-transparent text-gray-800 hover:text-white hover:bg-orange-500 py-2 px-4 rounded-lg transition-all">
+                                        Editar Imagem
+                                    </label>
+                                    <span id="file-name" class="ml-4 text-gray-700">Nenhum arquivo selecionado</span>
+                                </div>
                                 <button type="submit"
                                     class="transition px-8 py-2 text-md font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-lg text-center">Atualizar</button>
+                            </div>
                         </form>
-        </div>
-<?php
+                    </div>
+                    <?php
                     } else {
                         echo "Registro não encontrado.";
                     }
@@ -157,7 +184,7 @@
                 }
             }
 
-?>
+            ?>
     </main>
     <script>
         function mostrarNomeArquivo() {

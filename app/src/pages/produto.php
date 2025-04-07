@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Chrysalis - Sua Loja Preferida</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
-    <title>Chrysalis - Produto</title>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 
-<body class="bg-white text-gray-900">
+<body>
     <?php
     session_start();
     include("header.php");
@@ -84,7 +85,8 @@
             $nota = $_POST['avaliacao'];
             $comentario = $_POST['comentario'];
             $idUsuario = $_SESSION['usuario_id']; // ID do usuário logado
-        
+    
+
             // Inserir o feedback no banco de dados
             $sqlInsert = "INSERT INTO Feedback (nota, descricaoFeedback, idUsuario, idProduto) VALUES (?, ?, ?, ?)";
             $stmtInsert = $conexao->prepare($sqlInsert);
@@ -92,7 +94,7 @@
                 $stmtInsert->bind_param("isii", $nota, $comentario, $idUsuario, $idProduto);
                 $stmtInsert->execute();
                 $stmtInsert->close();
-        
+
                 // Redirecionar para evitar reenvio do formulário
                 echo '
                 <script>
@@ -153,113 +155,151 @@
     ?>
 
 
-    <section class="flex items-center justify-center min-h-screen">
-        <div class="container mx-auto p-6">
-            <div class="flex flex-col items-center md:flex-row md:space-x-12 gap-8 mb-8">
-                <?php
-                if ($imagem) {
-                    echo '<img class="w-5/6 m-4 rounded-lg object-contain" src="data:image/png;base64,' . base64_encode($imagem) . '" alt="Imagem do produto" style="height:500px; width:500px;">';
-                } else {
-                    echo '<img class="w-5/6 m-4 rounded-lg object-contain" src="https://via.placeholder.com/500" alt="Imagem não disponível" style="height:500px; width:500px;">';
-                }
-                ?>
-                <div class="md:w-1/2 mt-6">
-                    <h1 class="text-3xl font-bold"><?php echo " $grupo $subgrupo $descricao $genero"; ?></h1>
-                    <p class="text-4xl font-bold mt-4">R$ <?php echo number_format($valorProduto, 2, ',', '.'); ?></p>
-                    <form method="POST" action="produto.php?id=<?php echo $idProduto; ?>">
-                        <input type="hidden" name="idProduto" value="<?php echo $idProduto; ?>">
-                        <button onclick="window.location.replace('carrinho.php');"  name="adicionar_carrinho"
-                            class="w-full py-4 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300 mt-6">
-                            Adicionar ao Carrinho
-                        </button>
-                    </form>
-                </div>
+<div class="container mx-auto px-4 md:px-12 py-6 space-y-12">
+
+    <!-- Produto -->
+    <div class="bg-white shadow-lg rounded-2xl p-6 md:p-12 flex flex-col md:flex-row gap-10">
+        
+        <!-- Imagem -->
+        <div class="flex justify-center md:block">
+            <?php if ($imagem): ?>
+                <img class="w-full max-w-xs md:max-w-sm rounded-xl object-cover shadow-md"
+                    src="data:image/png;base64,<?= base64_encode($imagem) ?>" alt="Imagem do produto">
+            <?php else: ?>
+                <img class="w-full max-w-xs md:max-w-sm rounded-xl object-cover shadow-md"
+                    src="https://via.placeholder.com/300" alt="Imagem não disponível">
+            <?php endif; ?>
+        </div>
+
+        <!-- Informações do Produto -->
+        <div class="flex-1 flex flex-col text-center md:text-left">
+            <div class="space-y-4 mb-10">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 leading-tight">
+                    <?= "$grupo $subgrupo $descricao $genero"; ?>
+                </h1>
+                <p class="text-3xl text-orange-500 font-bold">
+                    R$ <?= number_format($valorProduto, 2, ',', '.'); ?>
+                </p>
             </div>
 
-            <section>
-                <!-- Formulário para adicionar avaliação -->
-                <h2 class="text-2xl font-bold text-center">Adicionar Avaliação</h2>
-                <form method="POST" class="flex flex-col items-center space-y-4 mt-4">
-                    <input type="hidden" name="avaliacao" id="avaliacao" value="0">
-                    <div class="flex space-x-2">
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <svg class="estrela w-10 h-10 cursor-pointer text-gray-400" data-valor="<?php echo $i; ?>"
+            <!-- Botão de Carrinho -->
+            <form method="GET" action="adicionar_carrinho.php" class="mt-10 w-full">
+                <input type="hidden" name="idProduto" value="<?= $idProduto; ?>">
+                <button type="submit"
+                    class="w-full flex justify-center items-center text-white bg-orange-500 hover:bg-orange-700 hover:scale-105 transition-transform duration-300 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-base px-4 py-3">
+                    Adicionar ao Carrinho
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Avaliação -->
+    <div class="bg-white shadow-lg rounded-2xl p-10 md:p-10">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Avalie este produto</h2>
+        <form method="POST" class="space-y-6">
+            <!-- Estrelas -->
+            <div class="flex justify-center gap-2">
+                <input type="hidden" name="avaliacao" id="avaliacao" value="0">
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                    <svg class="estrela w-10 h-10 text-gray-300 hover:text-orange-500 cursor-pointer transition-colors duration-200"
+                        data-valor="<?= $i; ?>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                <?php endfor; ?>
+            </div>
+
+            <!-- Comentário -->
+            <div class="flex justify-center">
+                <textarea name="comentario"
+                    class="w-full md:w-4/5 border border-gray-300 rounded-lg p-4 focus:outline-none focus:border-orange-500"
+                    rows="4" placeholder="Adicione um comentário (opcional)"></textarea>
+            </div>
+
+            <!-- Botão Avaliar -->
+            <div class="flex justify-center">
+                <button id="btnAvaliar"
+                    class="w-full md:w-2/5 py-3 bg-orange-500 text-white text-lg font-semibold rounded-lg shadow hover:scale-105 hover:bg-orange-700 transition-transform duration-200">
+                    Enviar Avaliação
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Comentários -->
+    <div class="bg-white shadow-lg rounded-2xl p-6 md:p-10">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Comentários</h2>
+
+        <!-- Filtros -->
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button onclick="filtrarComentarios(0)"
+                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-gray-700 shadow transition-all duration-300">
+                Todas as notas
+            </button>
+            <?php for ($i = 1; $i <= 5; $i++): ?>
+                <button onclick="filtrarComentarios(<?= $i; ?>)"
+                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-gray-700 shadow transition-all duration-300">
+                    <?= $i; ?> Estrela<?= $i > 1 ? 's' : ''; ?>
+                </button>
+            <?php endfor; ?>
+        </div>
+
+        <!-- Lista de Comentários -->
+        <div id="comentarios" class="space-y-6">
+            <?php while ($comentario = $comentarios->fetch_assoc()): ?>
+                <div class="border-b border-gray-200 pb-4">
+                    <p class="font-bold text-gray-700"><?= $comentario['loginUsuario']; ?></p>
+                    <div class="flex mb-2">
+                        <?php for ($i = 0; $i < 5; $i++): ?>
+                            <svg class="w-5 h-5 <?= $i < $comentario['nota'] ? 'text-orange-500' : 'text-gray-300'; ?>"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                             </svg>
                         <?php endfor; ?>
                     </div>
-
-                    <textarea class="w-full md:w-1/2 p-4 border border-gray-300 rounded-lg focus:border-orange-500"
-                        name="comentario" placeholder="Adicione um comentário (opcional)"></textarea>
-                    <button type="submit"
-                        class="py-2 px-6 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition duration-300">
-                        Enviar Avaliação
-                    </button>
-                </form>
-            </section> 
-
-            <section class="mt-12">
-                <h2 class="text-2xl font-bold text-center">Comentários</h2>
-
-                <div class="flex justify-center space-x-2 mt-4">
-                    <button onclick="filtrarComentarios(0)"
-                        class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300">Todas as notas</button>
-                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <button onclick="filtrarComentarios(<?php echo $i; ?>)"
-                            class="py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300"><?php echo $i; ?>
-                            Estrela<?php echo $i > 1 ? 's' : ''; ?></button>
-                    <?php endfor; ?>
+                    <p class="text-gray-600"><?= $comentario['descricaoFeedback']; ?></p>
                 </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</div>
 
-                <div id="comentarios" class="mt-8">
-                    <?php while ($comentario = $comentarios->fetch_assoc()): ?>
-                        <div class="p-4 border border-gray-300 rounded-lg mb-4">
-                            <p class="font-bold"><?php echo $comentario['loginUsuario']; ?></p>
-                            <div class="flex mb-2">
-                                <?php for ($i = 0; $i < 5; $i++): ?>
-                                    <svg class="w-6 h-6 text-<?php echo $i < $comentario['nota'] ? 'orange-500' : 'gray-400'; ?>"
-                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <path
-                                            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                    </svg>
-                                <?php endfor; ?>
-                            </div>
-                            <p><?php echo $comentario['descricaoFeedback']; ?></p>
-                        </div>
-                    <?php endwhile; ?>
-                </div>
-            </section>
 
-            <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+        <script>
+            const estrelas = document.querySelectorAll('.estrela');
+            const inputAvaliacao = document.getElementById('avaliacao');
 
-            <script>
-                const estrelas = document.querySelectorAll('.estrela');
-                const inputAvaliacao = document.getElementById('avaliacao');
+            estrelas.forEach((estrela, index) => {
+                estrela.addEventListener('click', () => {
+                    const valor = parseInt(estrela.dataset.valor);
+                    inputAvaliacao.value = valor;
 
-                estrelas.forEach((estrela, index) => {
-                    estrela.addEventListener('click', () => {
-                        const valor = parseInt(estrela.dataset.valor);
-                        inputAvaliacao.value = valor;
-
-                        estrelas.forEach((e, i) => {
-                            e.classList.toggle('text-orange-500', i < valor);
-                            e.classList.toggle('text-gray-400', i >= valor);
-                        });
+                    estrelas.forEach((e, i) => {
+                        e.classList.toggle('text-orange-500', i < valor);
+                        e.classList.toggle('text-gray-400', i >= valor);
                     });
                 });
+            });
 
-                function filtrarComentarios(nota) {
-                    const comentarios = document.querySelectorAll('#comentarios > div');
+            function filtrarComentarios(nota) {
+                const comentarios = document.querySelectorAll('#comentarios > div');
 
-                    comentarios.forEach((comentario) => {
-                        const estrelas = comentario.querySelectorAll('svg.text-orange-500').length;
-                        comentario.style.display = (nota === 0 || estrelas === nota) ? 'block' : 'none';
-                    });
-                }
-
-            </script>
+                comentarios.forEach((comentario) => {
+                    const estrelas = comentario.querySelectorAll('svg.text-orange-500').length;
+                    comentario.style.display = (nota === 0 || estrelas === nota) ? 'block' : 'none';
+                });
+            }
+        </script>
+        <?php
+        include('footer.php');
+        ?>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+        <script>
+            AOS.init();
+        </script>
 </body>
 
 </html>

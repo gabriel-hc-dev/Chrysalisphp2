@@ -9,6 +9,26 @@
     <link rel="stylesheet" href="../../src/styles/butterfly.css">
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
+    <style>
+        body::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: rgb(249 250 251);
+            /* color of the tracking area */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: rgba(203, 213, 225, 0.8);
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid rgb(249 250 251);
+            /* creates padding around scroll thumb */
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">

@@ -7,8 +7,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../styles/butterfly.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png">
     <title>Chrysalis - Sua Loja Preferida</title>
+    <style>
+        body::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: rgb(249 250 251);
+            /* color of the tracking area */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: rgba(203, 213, 225, 0.8);
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid rgb(249 250 251);
+            /* creates padding around scroll thumb */
+        }
+    </style>
 </head>
 
 <body class="overflow-x-hidden bg-gray-50">
@@ -20,7 +42,7 @@
         <!--Texto de Sobre Nós-->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-semibold mt-14 text-center">Sobre Nós</h1>
-            <div class="w-24 h-1 bg-orange-400 mx-auto"></div>
+            <div class="w-44 h-1 bg-orange-400 mx-auto"></div>
         </div>
         <section class="px-4 md:px-16">
             <div class="max-w-7xl mx-auto">
@@ -37,7 +59,7 @@
                         alcance de todos, sem abrir mão de qualidade ou estilo.
                         <br><br>
                         <span class="block mt-4 font-semibold text-gray-900">Cada coleção é cuidadosamente elaborada com
-                            <u class="text-orange-600">materiais de alta qualidade. </u></span> com atenção aos mínimos
+                            <u class="text-orange-600">materiais de alta qualidade. </u></span> Com atenção aos mínimos
                         detalhes para garantir que você tenha em mãos peças duráveis, confortáveis e sempre em sintonia
                         com as tendências mais atuais. Além disso, buscamos sempre oferecer preços justos, pois
                         acreditamos que estilo não deve ser um privilégio.
@@ -51,7 +73,7 @@
             </div>
         </section>
         
-        <section class="mt-8">
+        <section class="mt-8 aos-init aos-animate" data-aos="zoom-in">
             <!-- Missão com linha decorativa -->
             <div class="text-center mb-4">
                 <h2 class="text-3xl font-semibold text-gray-800">Missão</h2>
@@ -90,6 +112,9 @@
     <?php
     include('footer.php');
     ?>
+    <script>
+        AOS.init();
+    </script>
 </body>
 
 </html>

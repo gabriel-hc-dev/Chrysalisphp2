@@ -11,6 +11,17 @@ if (!isset($_SESSION['usuario_id'])) {
 $idProduto = $_GET['idProduto'];
 $idUsuario = $_SESSION['usuario_id']; // ID do usuário logado
 
+// Verifica se o produto existe
+$sqlVerificaProduto = "SELECT idProduto FROM Produto WHERE idProduto = ?";
+$stmt = $conexao->prepare($sqlVerificaProduto);
+$stmt->bind_param("i", $idProduto);
+$stmt->execute();
+$stmt->store_result();
+if ($stmt->num_rows === 0) {
+    echo "<script>alert('Produto inválido.'); window.location.href='carrinho.php';</script>";
+    exit();
+}
+
 // Verifica se o carrinho já existe para o usuário
 $sqlCarrinho = "SELECT idCarrinho FROM Carrinho WHERE idUsuario = ?";
 $stmt = $conexao->prepare($sqlCarrinho);
@@ -63,3 +74,4 @@ $valorProduto = $rowProduto['valorProduto'];
 header('Location: carrinho.php');
 
 exit();
+?>

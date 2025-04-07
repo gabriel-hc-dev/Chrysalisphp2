@@ -8,6 +8,26 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png" />
     <title>Chrysalis - Criar conta</title>
+    <style>
+        body::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: rgb(249 250 251);
+            /* color of the tracking area */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: rgba(203, 213, 225, 0.8);
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid rgb(249 250 251);
+            /* creates padding around scroll thumb */
+        }
+    </style>
 </head>
 
 <body>
@@ -18,7 +38,7 @@
             <form class="mt-8 space-y-6 mx-6 my-4 bg-white px-10 py-16 rounded-lg shadow-lg" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <div class="block">
                     <h1 class="text-center text-2xl font-bold text-gray-900">Cadastro de Usuário</h1>
-                    <p class="mt-2 text-center text-sm text-gray-500">Já tem uma conta? <a href="login.php" class="font-medium text-orange-500 hover:underline">Entrar</a></p>
+                    <p class="mt-2 text-center text-sm text-gray-500">Já tem uma conta? <a href="login.php" class="font-semibold text-black hover:underline">Entrar</a></p>
                 </div>
                 <!-- Informações Pessoais -->
                 <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
@@ -59,7 +79,7 @@
                         <label for="numero" class="block text-sm font-medium text-gray-900">Nº Res.</label>
                         <input type="text" name="numero" id="numero" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: 123" required />
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-2">
                         <label for="bairro" class="block text-sm font-medium text-gray-900">Bairro</label>
                         <input type="text" name="bairro" id="bairro" class="bg-gray-50 border transition-all border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 hover:bg-white focus:my-1" placeholder="Ex.: Jardim Primavera" required />
                     </div>
@@ -114,7 +134,7 @@
                     </div>
                 </div>
                 <div class="mt-6 flex items-center justify-center">
-                    <button type="submit" class="w-1/4 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105" onclick="window.open('login.php');">Cadastrar</button>
+                    <button type="submit" class="w-1/2 text-white bg-orange-500 focus:ring-2 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-orange-600 transition-all hover:scale-105" onclick="window.open('login.php');">Cadastrar</button>
                 </div>
             </form>
         </section>
@@ -179,7 +199,10 @@
         $result = cadastrarUsuario($_POST);
         if ($result) {
             // Redirecionar ou mostrar mensagem de sucesso
-            echo "Usuário cadastrado com sucesso!";
+            echo "Usuário cadastrado com sucesso!
+            <script>
+                window.location.replace('login.php');
+            </script>";
             header('Location:login.php');
         } else {
             // Mostrar mensagem de erro

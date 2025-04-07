@@ -1,3 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="../../public/assets/images/White_Butterfly.png" />
+    <title>Chrysalis - Carrinho</title>
+    <style>
+        body::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: rgb(249 250 251);
+            /* color of the tracking area */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: rgba(203, 213, 225, 0.8);
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid rgb(249 250 251);
+            /* creates padding around scroll thumb */
+        }
+    </style>
+</head>
+
 <?php
 session_start();
 include('../backend/conexao.php');
@@ -41,6 +73,7 @@ if (isset($_GET['add'])) {
     exit();
 }
 
+
 // Buscar produtos do banco de dados
 $produtos = [];
 $query = "SELECT idProduto, grupo, subGrupo, descricao, genero, valorProduto, imagem FROM Produto";
@@ -59,15 +92,6 @@ if ($result->num_rows > 0) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Chrysalis - Carrinho</title>
-</head>
-
 <body class="bg-gray-50">
     <div class="container mx-auto p-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -81,19 +105,23 @@ if ($result->num_rows > 0) {
                             <?php if (isset($produtos[$idProduto])): ?>
                                 <div class="flex items-center justify-between border-b pb-4">
                                     <div class="flex items-center">
-                                        <img src="data:image/jpeg;base64,<?= base64_encode($produtos[$idProduto]['imagem']) ?>" alt="Produto" class="w-16 h-16 rounded-md">
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($produtos[$idProduto]['imagem']) ?>"
+                                            alt="Produto" class="w-16 h-16 rounded-md">
                                         <div class="ml-4">
                                             <p class="text-lg font-semibold">
                                                 <?= htmlspecialchars(trim($produtos[$idProduto]['grupo'] . ' ' . $produtos[$idProduto]['subgrupo'] . ' ' . $produtos[$idProduto]['descricao'] . ' ' . $produtos[$idProduto]['genero'])) ?>
                                             </p>
-                                            <p class="text-gray-500">R$ <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
+                                            <p class="text-gray-500">R$
+                                                <?= number_format($produtos[$idProduto]['preco'], 2, ',', '.') ?></p>
                                         </div>
                                     </div>
 
                                     <div class="flex items-center">
-                                        <a href="carrinho.php?remove=<?= $idProduto ?>" class="px-2 py-1 bg-orange-500 text-white rounded-lg">-</a>
-                                        <span class="mx-2 text-lg"><?= $quantidade ?></span>
-                                        <a href="carrinho.php?add=<?= $idProduto ?>" class="px-2 py-1 bg-orange-500 text-white rounded-lg">+</a>
+                                        <a href="carrinho.php?remove=<?= $idProduto ?>"
+                                            class="px-2 py-1 bg-orange-500 text-white rounded-lg">-</a>
+                                        <span class="mx-2 text-lg"></span>
+                                        <a href="carrinho.php?add=<?= $idProduto ?>"
+                                            class="px-2 py-1 bg-orange-500 text-white rounded-lg">+</a>
                                     </div>
                                 </div>
                             <?php else: ?>
@@ -127,7 +155,8 @@ if ($result->num_rows > 0) {
                     <span>Valor Total</span>
                     <span>R$ <?= number_format($total, 2, ',', '.') ?></span>
                 </div>
-                <button class="mt-4 w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600">
+                <button
+                    class="mt-4 w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 duration-300 hover:scale-105">
                     Finalizar Compra
                 </button>
             </div>
@@ -136,4 +165,5 @@ if ($result->num_rows > 0) {
     </div>
 </body>
 <?php include('footer.php'); ?>
+
 </html>
