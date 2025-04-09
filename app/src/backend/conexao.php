@@ -18,7 +18,7 @@ $conexao->select_db("BancoChrysalis");
 //criando as tabelas caso não tenham sido criadas ainda
 
 $conexao->query("CREATE TABLE IF NOT EXISTS Endereco (
-    cep VARCHAR(9) NOT NULL,
+    cep VARCHAR(9) NOT NULL PRIMARY KEY,
     rua VARCHAR(200) NOT NULL,
     bairro VARCHAR(200) NOT NULL,
     estado CHAR(2) NOT NULL,  
